@@ -1,0 +1,64 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>OpenCV - 标签 - Influx&#39;s Blog</title>
+        <link>https://example.com/tags/opencv/</link>
+        <description>OpenCV - 标签 - Influx&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>liuyvjin@qq.com (influx)</managingEditor>
+            <webMaster>liuyvjin@qq.com (influx)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 01 Oct 2018 17:55:28 &#43;0800</lastBuildDate><atom:link href="https://example.com/tags/opencv/" rel="self" type="application/rss+xml" /><item>
+    <title>OpenCV01 Mat类详解</title>
+    <link>https://example.com/opencv01_mat%E7%B1%BB%E8%AF%A6%E8%A7%A3/</link>
+    <pubDate>Mon, 01 Oct 2018 17:55:28 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/opencv01_mat%E7%B1%BB%E8%AF%A6%E8%A7%A3/</guid>
+    <description><![CDATA[一、属性 矩阵的结构：rows × rows × channels，矩阵一个的元素是指包含所有channels的，而不是指一个通道，所以有rows × rows]]></description>
+</item><item>
+    <title>OpenCV02 基础</title>
+    <link>https://example.com/opencv02_%E5%9F%BA%E7%A1%80/</link>
+    <pubDate>Mon, 01 Oct 2018 17:55:28 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/opencv02_%E5%9F%BA%E7%A1%80/</guid>
+    <description><![CDATA[一、开始使用 1. 头文件 OpenCV中的C++类和函数都是定义在命名空间cv之内的，有两种方法可以访问： 第一种是，在代码开头的适当位置，加上us]]></description>
+</item><item>
+    <title>OpenCV03 滤波</title>
+    <link>https://example.com/opencv03_%E6%BB%A4%E6%B3%A2/</link>
+    <pubDate>Mon, 01 Oct 2018 17:55:28 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/opencv03_%E6%BB%A4%E6%B3%A2/</guid>
+    <description><![CDATA[一、线性临域滤波（卷积） 滤波和模糊的联系与区别： 滤波就是高通滤波或者低通滤波等改变输入信号频率分布的操作；模糊就是低通滤波，锐化就是高通滤波]]></description>
+</item><item>
+    <title>OpenCV04 形态学图像处理</title>
+    <link>https://example.com/opencv04_%E5%BD%A2%E6%80%81%E5%AD%A6%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</link>
+    <pubDate>Mon, 01 Oct 2018 17:55:28 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/opencv04_%E5%BD%A2%E6%80%81%E5%AD%A6%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</guid>
+    <description><![CDATA[一、膨胀与腐蚀 1. 膨胀 dilate 与中值滤波类似的操作，但不是取视界内的中值，而是取视界内的极大值作为输出。这样会使得图像中的高亮部分得到扩大。 下面来看]]></description>
+</item><item>
+    <title>OpenCV05 边缘检测</title>
+    <link>https://example.com/opencv05_%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/</link>
+    <pubDate>Mon, 01 Oct 2018 17:55:28 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/opencv05_%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/</guid>
+    <description><![CDATA[一、边缘检测原理 1. 原理概述 实现图像的边缘检测，就是要用离散化梯度逼近函数根据二维灰度矩阵梯度向量来寻找图像灰度矩阵的灰度跃变位置，然后在图像]]></description>
+</item><item>
+    <title>OpenCV06 图像金字塔</title>
+    <link>https://example.com/opencv06_%E5%9B%BE%E5%83%8F%E9%87%91%E5%AD%97%E5%A1%94/</link>
+    <pubDate>Mon, 01 Oct 2018 17:55:28 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/opencv06_%E5%9B%BE%E5%83%8F%E9%87%91%E5%AD%97%E5%A1%94/</guid>
+    <description><![CDATA[一、图像金字塔概述 1. 基本概念 图像金字塔最初用于机器视觉和图像压缩，一幅图像的金字塔是一系列以倒金字塔形状排列的分辨率逐步降低，且来源于同一张]]></description>
+</item><item>
+    <title>OpenCV07 霍夫变换</title>
+    <link>https://example.com/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2/</link>
+    <pubDate>Mon, 01 Oct 2018 17:55:28 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2/</guid>
+    <description><![CDATA[一、霍夫变换原理 简单来说，霍夫变换就是： 把图像空间的某种点集（如直线，圆），映射为霍夫空间的点。 把图像空间的点，映射为霍夫空间的某种点集（如]]></description>
+</item><item>
+    <title>OpenCV08 漫水填充</title>
+    <link>https://example.com/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85/</link>
+    <pubDate>Mon, 01 Oct 2018 17:55:28 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85/</guid>
+    <description><![CDATA[一、简介 漫水填充，简单来说就是photoshop里的魔棒工具。选中一个种子点，自动选中与种子点颜色相近的连通区域。 二、函数介绍 OpenCV里]]></description>
+</item></channel>
+</rss>

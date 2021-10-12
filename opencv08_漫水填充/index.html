@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>OpenCV08 漫水填充 - Influx&#39;s Blog</title><meta name="Description" content="关于 LoveIt 主题"><meta property="og:title" content="OpenCV08 漫水填充" />
+<meta property="og:description" content="一、简介 漫水填充，简单来说就是photoshop里的魔棒工具。选中一个种子点，自动选中与种子点颜色相近的连通区域。 二、函数介绍 OpenCV里" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-10-01T17:55:28+08:00" />
+<meta property="article:modified_time" content="2018-10-01T17:55:28+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/logo.png"/>
+
+<meta name="twitter:title" content="OpenCV08 漫水填充"/>
+<meta name="twitter:description" content="一、简介 漫水填充，简单来说就是photoshop里的魔棒工具。选中一个种子点，自动选中与种子点颜色相近的连通区域。 二、函数介绍 OpenCV里"/>
+<meta name="application-name" content="Influx&#39;s Blog">
+<meta name="apple-mobile-web-app-title" content="Influx&#39;s Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85/" /><link rel="next" href="https://example.com/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "OpenCV08 漫水填充",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85\/"
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  1414 ,
+        "url": "https:\/\/example.com\/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85\/","datePublished": "2018-10-01T17:55:28+08:00","dateModified": "2018-10-01T17:55:28+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": {
+                    "@type": "ImageObject",
+                    "url": "https:\/\/example.com\/images\/avatar.png",
+                    "width":  512 ,
+                    "height":  512 
+                }},"author": {
+                "@type": "Person",
+                "name": "Influx"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">OpenCV08 漫水填充</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/opencv/"><i class="far fa-folder fa-fw"></i>OpenCV</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1414 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一简介">一、简介</a></li>
+    <li><a href="#二函数介绍">二、函数介绍</a></li>
+    <li><a href="#三使用效果">三、使用效果</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="一简介">一、简介</h2>
+<p>漫水填充，简单来说就是photoshop里的魔棒工具。选中一个种子点，自动选中与种子点颜色相近的连通区域。</p>
+<h2 id="二函数介绍">二、函数介绍</h2>
+<p>OpenCV里提供了两个版本的函数。一个不带掩膜mask的版本，和一个带mask的版本。
+无掩膜版本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">floodFill</span><span class="p">(</span><span class="n">InputOutputArray</span> <span class="n">image</span><span class="p">,</span> <span class="n">Point</span> <span class="n">seedPoint</span><span class="p">,</span>
+              <span class="n">Scalar</span> <span class="n">newVal</span><span class="p">,</span>   <span class="n">Rect</span><span class="o">*</span> <span class="n">rect</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+              <span class="n">Scalar</span> <span class="n">loDiff</span><span class="o">=</span><span class="n">Scalar</span><span class="p">(),</span> <span class="n">Scalar</span> <span class="n">upDiff</span><span class="o">=</span><span class="n">Scalar</span><span class="p">(),</span>
+              <span class="kt">int</span> <span class="n">flags</span><span class="o">=</span><span class="mi">4</span> <span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>有掩膜版本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">floodFill</span><span class="p">(</span><span class="n">InputOutputArray</span> <span class="n">image</span><span class="p">,</span> <span class="n">InputOutputArray</span> <span class="n">mask</span><span class="p">,</span>
+              <span class="n">Point</span> <span class="n">seedPoint</span><span class="p">,</span><span class="n">Scalar</span> <span class="n">newVal</span><span class="p">,</span> <span class="n">Rect</span><span class="o">*</span> <span class="n">rect</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+              <span class="n">Scalar</span> <span class="n">loDiff</span><span class="o">=</span><span class="n">Scalar</span><span class="p">(),</span> <span class="n">Scalar</span> <span class="n">upDiff</span><span class="o">=</span><span class="n">Scalar</span><span class="p">(),</span>
+              <span class="kt">int</span> <span class="n">flags</span><span class="o">=</span><span class="mi">4</span> <span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>**参数介绍：**第二个版本比第一个版本只多了一个参数mask</p>
+<ul>
+<li>
+<p>image - InputOutputArray类型, 输入/输出1通道或3通道，8位或浮点图像，具体参数由之后的参数具体指明。</p>
+</li>
+<li>
+<p>mask - InputOutputArray类型，这是第二个版本的floodFill独享的参数，表示操作掩模。它应该为<strong>单通道、8位</strong>、长和宽上都比输入图像 image <strong>大两个像素点</strong>的图像。</p>
+<p><strong>注意</strong>，<strong>漫水填充不会填充掩膜mask的非零像素区域</strong>。例如，一个边缘检测算子的输出可以用来作为掩膜，以防止填充到边缘。同样的，也可以在多次的函数调用中使用同一个掩膜，以保证填充的区域不会重叠。</p>
+<p><strong>注意</strong>，掩膜mask会比需填充的图像大，所以mask中的(x+1,y+1) 对应 输入图像的(x,y)。</p>
+</li>
+<li>
+<p>seedPoint - Point类型，漫水填充算法的起始点，一般填<code>Point(x,y)</code>。</p>
+</li>
+<li>
+<p>newVal - Scalar类型，像素点被染色的值，即在填充区域像素的新值。</p>
+</li>
+<li>
+<p>rect - Rect*类型，有默认值0，一个可选的参数。用于保存包含重绘区域的最小矩形范围。使用方法是在主程序中如下写，可以显示重绘区域。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">Rect</span> <span class="n">ccomp</span><span class="p">;</span>
+<span class="n">floodFill</span><span class="p">(</span><span class="n">src</span><span class="p">,...,</span><span class="o">&amp;</span><span class="n">ccomp</span><span class="p">,...);</span>
+<span class="n">imshow</span><span class="p">(</span><span class="s">&#34;重绘区域&#34;</span><span class="p">,</span><span class="n">src</span><span class="p">(</span><span class="n">ccomp</span><span class="p">));</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>loDiff - Scalar类型，有默认值Scalar()，表示以当前观察像素值pixel为基准，(pixel-Scalar,pixel)范围内的像素值可以加入。</p>
+</li>
+<li>
+<p>upDiff - Scalar类型，有默认值Scalar()，表示以当前观察像素值pixel为基准，(pixel,pixel+Scalar)范围内的像素值可以加入。</p>
+</li>
+<li>
+<p>flags - int类型，操作标志符，此参数包含三个部分，比较复杂，我们一起详细看看:</p>
+<ul>
+<li>
+<p>低八位（第0~7位） - 设置<strong>连通性</strong>，可取4 (4为缺省值) 或者 8。如果设为4，表示填充算法只考虑当前像素水平方向和垂直方向的相邻点；如果设为 8，除上述相邻点外，还会包含对角线方向的相邻点。</p>
+</li>
+<li>
+<p>高八位（16~23位） - 设置<strong>填充模式</strong>，可以为0或者如下两种选项标识符的组合：</p>
+<p><code>FLOODFILL_FIXED_RANGE</code> - <strong>填充固定像素范围</strong>。如果设置这个标识符的话，就只考虑当前像素与种子像素之间的差（以一个点为参考，也即固定了像素范围），否则就考虑当前像素与其相邻像素的差。如果不设置这个值，则是浮动像素范围。
+<code>FLOODFILL_MASK_ONLY</code> - <strong>只填充掩膜</strong>。如果设置为这个标识符的话，函数不会去填充改变原始图像 (也就是忽略第三个参数newVal), 而是去填充掩模图像（mask）。这个标识符只对第二个版本的floodFill有用。</p>
+</li>
+<li>
+<p>中间八位（8~15位） - 上面关于高八位FLOODFILL_MASK_ONLY标识符中已经说明，可以只填充掩膜图像，flags参数的中间八位就是用于填充掩码图像的值。但如果flags中间八位的值为0，则掩码会用1来填充。</p>
+</li>
+<li>
+<p>而所有flags可以用or操作符连接起来，即“|”。例如，如果想用8邻域填充，并填充固定像素值范围，填充掩码而不是填充源图像，以及设填充值为38，那么输入的参数是这样：</p>
+<p><code>flags=8 | FLOODFILL_MASK_ONLY | FLOODFILL_FIXED_RANGE | （38&lt;&lt;8）</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>int类型的返回值，是被重绘的点的个数。</p>
+</li>
+</ul>
+<h2 id="三使用效果">三、使用效果</h2>
+<p>使用效果如下：
+<figure><a class="lightgallery" href="/images/opencv_imgs/%e6%bc%ab%e6%b0%b4%e5%a1%ab%e5%85%85%e6%95%88%e6%9e%9c.png" title="/images/opencv_imgs/漫水填充效果.png" data-thumbnail="/images/opencv_imgs/漫水填充效果.png" data-sub-html="<h2>漫水填充效果</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/images/opencv_imgs/%e6%bc%ab%e6%b0%b4%e5%a1%ab%e5%85%85%e6%95%88%e6%9e%9c.png"
+            data-srcset="/images/opencv_imgs/%e6%bc%ab%e6%b0%b4%e5%a1%ab%e5%85%85%e6%95%88%e6%9e%9c.png, /images/opencv_imgs/%e6%bc%ab%e6%b0%b4%e5%a1%ab%e5%85%85%e6%95%88%e6%9e%9c.png 1.5x, /images/opencv_imgs/%e6%bc%ab%e6%b0%b4%e5%a1%ab%e5%85%85%e6%95%88%e6%9e%9c.png 2x"
+            data-sizes="auto"
+            alt="/images/opencv_imgs/漫水填充效果.png" width="1100px" />
+    </a><figcaption class="image-caption">漫水填充效果</figcaption>
+    </figure></p>
+<!-- ![漫水填充效果](/images/opencv_imgs/漫水填充效果.png) -->
+<p><a href="https://github.com/Liuyvjin/OpenCV_begin/tree/master/EX10" target="_blank" rel="noopener noreffer">参考代码</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2018-10-01</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85/" data-title="OpenCV08 漫水填充" data-hashtags="OpenCV"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85/" data-hashtag="OpenCV"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85/" data-title="OpenCV08 漫水填充"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85/" data-title="OpenCV08 漫水填充"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85/" data-title="OpenCV08 漫水填充"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/opencv/">OpenCV</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2/" class="next" rel="next" title="OpenCV07 霍夫变换">OpenCV07 霍夫变换<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.8/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

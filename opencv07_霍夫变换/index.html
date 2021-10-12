@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>OpenCV07 霍夫变换 - Influx&#39;s Blog</title><meta name="Description" content="关于 LoveIt 主题"><meta property="og:title" content="OpenCV07 霍夫变换" />
+<meta property="og:description" content="一、霍夫变换原理 简单来说，霍夫变换就是： 把图像空间的某种点集（如直线，圆），映射为霍夫空间的点。 把图像空间的点，映射为霍夫空间的某种点集（如" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-10-01T17:55:28+08:00" />
+<meta property="article:modified_time" content="2018-10-01T17:55:28+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/logo.png"/>
+
+<meta name="twitter:title" content="OpenCV07 霍夫变换"/>
+<meta name="twitter:description" content="一、霍夫变换原理 简单来说，霍夫变换就是： 把图像空间的某种点集（如直线，圆），映射为霍夫空间的点。 把图像空间的点，映射为霍夫空间的某种点集（如"/>
+<meta name="application-name" content="Influx&#39;s Blog">
+<meta name="apple-mobile-web-app-title" content="Influx&#39;s Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2/" /><link rel="prev" href="https://example.com/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85/" /><link rel="next" href="https://example.com/opencv06_%E5%9B%BE%E5%83%8F%E9%87%91%E5%AD%97%E5%A1%94/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "OpenCV07 霍夫变换",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2\/"
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  3492 ,
+        "url": "https:\/\/example.com\/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2\/","datePublished": "2018-10-01T17:55:28+08:00","dateModified": "2018-10-01T17:55:28+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": {
+                    "@type": "ImageObject",
+                    "url": "https:\/\/example.com\/images\/avatar.png",
+                    "width":  512 ,
+                    "height":  512 
+                }},"author": {
+                "@type": "Person",
+                "name": "Influx"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">OpenCV07 霍夫变换</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/opencv/"><i class="far fa-folder fa-fw"></i>OpenCV</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3492 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一霍夫变换原理">一、霍夫变换原理</a></li>
+    <li><a href="#二霍夫直线变换">二、霍夫直线变换</a>
+      <ul>
+        <li><a href="#21-霍夫直线变换原理">2.1 霍夫直线变换原理</a></li>
+        <li><a href="#22-houghlines函数">2.2 HoughLines函数</a></li>
+        <li><a href="#23-houghlinesp函数">2.3 HoughLinesP函数</a></li>
+      </ul>
+    </li>
+    <li><a href="#三霍夫圆变换">三、霍夫圆变换</a>
+      <ul>
+        <li><a href="#31-概述">3.1 概述</a></li>
+        <li><a href="#32-霍夫梯度法">3.2 霍夫梯度法</a></li>
+        <li><a href="#33-houghcircles函数">3.3 HoughCircles函数</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="一霍夫变换原理">一、霍夫变换原理</h2>
+<p>简单来说，霍夫变换就是：</p>
+<ul>
+<li>把图像空间的某种<strong>点集</strong>（如直线，圆），映射为霍夫空间的<strong>点</strong>。</li>
+<li>把图像空间的<strong>点</strong>，映射为霍夫空间的某种<strong>点集</strong>（如线）。</li>
+</ul>
+<p>假设我们要寻找图像空间中的某种点集$X$，它的一个实例是$X_0$，如果$X_0$真的存在于图像空间中，则其包含的每个点经过霍夫变换后得到的许多点集，有一个共同的交点，这个交点代表的就是$X_0$。</p>
+<p>因此如果我们将图像空间的所有点都映射到霍夫空间，并且统计霍夫空间中每个点出现的次数，那么出现次数越多的点就表示，在图像空间中越有可能存在这个点对应的点集。通过设置合理的<strong>阈值</strong>，我们就能找出图像空间中的这些点集。</p>
+<h2 id="二霍夫直线变换">二、霍夫直线变换</h2>
+<h3 id="21-霍夫直线变换原理">2.1 霍夫直线变换原理</h3>
+<blockquote>
+<p>本节要解决的主要问题就是：如何将点映射为一条曲线，将直线映射成一个点。</p>
+</blockquote>
+<p>笛卡尔坐标系下的直线只需要两个参数就能唯一确定：截距b和梯度k：
+$$
+y = kx+b
+$$
+把这两个参数作为坐标画在另一个图中，就能够实现将直线映射成点的目标。但是，这种方法存在缺陷：当直线竖直时，斜率将发散。</p>
+<p>因此需要换一个表示方法，这种方法就是<strong>极坐标方法：</strong>
+<figure><a class="lightgallery" href="/images/opencv_imgs/%e7%9b%b4%e7%ba%bf%e6%9e%81%e5%9d%90%e6%a0%87%e8%a1%a8%e7%a4%ba.png" title="/images/opencv_imgs/直线极坐标表示.png" data-thumbnail="/images/opencv_imgs/直线极坐标表示.png" data-sub-html="<h2>直线极坐标表示</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/images/opencv_imgs/%e7%9b%b4%e7%ba%bf%e6%9e%81%e5%9d%90%e6%a0%87%e8%a1%a8%e7%a4%ba.png"
+            data-srcset="/images/opencv_imgs/%e7%9b%b4%e7%ba%bf%e6%9e%81%e5%9d%90%e6%a0%87%e8%a1%a8%e7%a4%ba.png, /images/opencv_imgs/%e7%9b%b4%e7%ba%bf%e6%9e%81%e5%9d%90%e6%a0%87%e8%a1%a8%e7%a4%ba.png 1.5x, /images/opencv_imgs/%e7%9b%b4%e7%ba%bf%e6%9e%81%e5%9d%90%e6%a0%87%e8%a1%a8%e7%a4%ba.png 2x"
+            data-sizes="auto"
+            alt="/images/opencv_imgs/直线极坐标表示.png" width="400px" />
+    </a><figcaption class="image-caption">直线极坐标表示</figcaption>
+    </figure></p>
+<!-- ![直线极坐标表示](/images/opencv_imgs/直线极坐标表示.png) -->
+<p>极坐标方法是过原点作直线的垂线，用垂线的角度以及长度来表示一条直线，$(r,\theta)$，相应的霍夫空间以$\theta \in (0,2\pi)$为横坐标，以$r$为纵坐标。</p>
+<p>这样一来，图像中的点被映射为霍夫空间的一条正弦曲线：</p>
+<div>
+$$
+y_0=\left(-\frac{\cos\theta}{\sin\theta}\right)x_0+\left(\frac{r}{\sin\theta}\right)\\
+y_0,x_0 \equiv C
+$$
+</div>
+<p>如取三个红线上的点，根据每个点可以在霍夫空间作一条曲线，这三条曲线的唯一交点代表的就是红线：
+<figure><a class="lightgallery" href="/images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e7%9b%b4%e7%ba%bf%e5%8f%98%e6%8d%a2.png" title="/images/opencv_imgs/霍夫直线变换.png" data-thumbnail="/images/opencv_imgs/霍夫直线变换.png" data-sub-html="<h2>霍夫直线变换</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e7%9b%b4%e7%ba%bf%e5%8f%98%e6%8d%a2.png"
+            data-srcset="/images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e7%9b%b4%e7%ba%bf%e5%8f%98%e6%8d%a2.png, /images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e7%9b%b4%e7%ba%bf%e5%8f%98%e6%8d%a2.png 1.5x, /images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e7%9b%b4%e7%ba%bf%e5%8f%98%e6%8d%a2.png 2x"
+            data-sizes="auto"
+            alt="/images/opencv_imgs/霍夫直线变换.png" width="400px" />
+    </a><figcaption class="image-caption">霍夫直线变换</figcaption>
+    </figure></p>
+<!-- <img src="/images/opencv_imgs/霍夫直线变换.png" width = "400"  alt="霍夫直线变换" align=center /> -->
+<p>下面是wiki百科中的一个例子：
+<figure><a class="lightgallery" href="/images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e7%9b%b4%e7%ba%bf%e5%8f%98%e6%8d%a22.png" title="/images/opencv_imgs/霍夫直线变换2.png" data-thumbnail="/images/opencv_imgs/霍夫直线变换2.png" data-sub-html="<h2>霍夫线变换2</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e7%9b%b4%e7%ba%bf%e5%8f%98%e6%8d%a22.png"
+            data-srcset="/images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e7%9b%b4%e7%ba%bf%e5%8f%98%e6%8d%a22.png, /images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e7%9b%b4%e7%ba%bf%e5%8f%98%e6%8d%a22.png 1.5x, /images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e7%9b%b4%e7%ba%bf%e5%8f%98%e6%8d%a22.png 2x"
+            data-sizes="auto"
+            alt="/images/opencv_imgs/霍夫直线变换2.png" width="600px" />
+    </a><figcaption class="image-caption">霍夫线变换2</figcaption>
+    </figure></p>
+<!-- ![霍夫线变换2](/images/opencv_imgs/霍夫直线变换2.png) -->
+<h3 id="22-houghlines函数">2.2 HoughLines函数</h3>
+<p>此函数可以找出采用标准霍夫变换的二值图像线条。在OpenCV中，我们可以用其来调用标准霍夫变换SHT和多尺度霍夫变换MSHT的OpenCV内建算法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">HoughLines</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">image</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">lines</span><span class="p">,</span>
+                <span class="kt">double</span> <span class="n">rho</span><span class="p">,</span> <span class="kt">double</span> <span class="n">theta</span><span class="p">,</span> <span class="kt">int</span> <span class="n">threshold</span><span class="p">,</span>
+                <span class="kt">double</span> <span class="n">srn</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">double</span> <span class="n">stn</span><span class="o">=</span><span class="mi">0</span> <span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>image - InputArray类型，输入图像，即源图像，需为CV_8UC1，可以将任意的源图载入进来后由函数修改成此格式后，再填在这里。</li>
+<li>lines - OutputArray类型，经过调用HoughLines函数后储存了霍夫线变换检测到线条。每一条线由一个两元矢量表示，其中，$\rho$ 是离坐标原点$(0,0)$（也就是图像的左上角）的距离。$\theta$ 是直线旋转角度（0~垂直线，π/2~水平线）。</li>
+<li>rho - double类型，以像素为单位的距离精度。另一种形容方式是直线搜索时的进步尺寸的单位半径。</li>
+<li>theta - double类型的theta，以弧度为单位的角度精度。另一种形容方式是直线搜索时的进步尺寸的单位角度。</li>
+<li>threshold - int类型，累加平面的阈值参数，即识别某部分为图中的一条直线时它在累加平面中必须达到的值。大于阈值threshold的线段才可以被检测通过并返回到结果中。</li>
+<li>srn - double类型，有默认值0。对于多尺度的霍夫变换，这是第三个参数进步尺寸rho的除数距离。粗略的累加器进步尺寸直接是第三个参数rho，而精确的累加器进步尺寸为rho/srn。</li>
+<li>stn - double类型，有默认值0，对于多尺度霍夫变换，srn表示第四个参数进步尺寸的单位角度theta的除数距离。且如果srn和stn同时为0，就表示使用经典的霍夫变换。否则，这两个参数应该都为正数。</li>
+</ul>
+<h3 id="23-houghlinesp函数">2.3 HoughLinesP函数</h3>
+<p>此函数在HoughLines的基础上末尾加了一个代表Probabilistic（概率）的P，表明它可以采用累计概率霍夫变换（PPHT）来找出二值图像中的直线。输入图像必须为8位的单通道灰度图像，一般是采用<strong>Canny边缘检测图</strong>作为输入。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">HoughLinesP</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">image</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">lines</span><span class="p">,</span>
+                 <span class="kt">double</span> <span class="n">rho</span><span class="p">,</span> <span class="kt">double</span> <span class="n">theta</span><span class="p">,</span> <span class="kt">int</span> <span class="n">threshold</span><span class="p">,</span>
+                 <span class="kt">double</span> <span class="n">minLineLength</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">double</span> <span class="n">maxLineGap</span><span class="o">=</span><span class="mi">0</span> <span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>image - InputArray类型，输入图像，即源图像，需为<strong>CV_8UC1</strong>，可以将任意的源图载入进来后由函数修改成此格式后，再填在这里。</li>
+<li>lines - InputArray类型，经过调用HoughLinesP函数后后存储了检测到的线条的输出矢量，每一条线由具有四个元素的矢量$(x_1,y_1, x_2, y_2）$表示，其中$(x_1, y_1)$和$(x_2, y_2)$ 是是每个检测到的线段的结束点。</li>
+<li>rho - double类型，以像素为单位的距离精度。另一种形容方式是直线搜索时的进步尺寸的单位半径。</li>
+<li>theta - double类型，以弧度为单位的角度精度。另一种形容方式是直线搜索时的进步尺寸的单位角度。</li>
+<li>threshold - int类型，累加平面的阈值参数，即识别某部分为图中的一条直线时它在累加平面中必须达到的值。大于阈值threshold的线段才可以被检测通过并返回到结果中。</li>
+<li>minLineLength - double类型，有默认值0，表示最低线段的长度，比这个设定参数短的线段就不能被显现出来。</li>
+<li>maxLineGap - double类型，有默认值0，允许将同一行点与点之间连接起来的最大的距离。</li>
+</ul>
+<p><a href="https://github.com/Liuyvjin/OpenCV_begin/tree/master/EX9" target="_blank" rel="noopener noreffer">参考程序</a></p>
+<h2 id="三霍夫圆变换">三、霍夫圆变换</h2>
+<h3 id="31-概述">3.1 概述</h3>
+<p>一个圆需要三个参数来表示，分别是原点的坐标和半径。因此可以将圆映射为三维空间中的一个点：$(x,y,r)$</p>
+<p>然后采用直线变换类似的方法：将该三维空间离散为一个个累加器，统计经过该点的次数，设定阈值，高于阈值的点表示存在一个圆。</p>
+<p>但是这种三维累加器不仅需要大量的内存，并且执行效率很低，因此并不使用。实际中，一般通过“霍夫梯度法”来解决找圆问题。</p>
+<p>该算法的出发点是，圆形图像的梯度方向指向圆心，因此只要找到梯度线的交点就能确定圆心。接着统计圆心周边的非零点分布，估计半径即可。</p>
+<h3 id="32-霍夫梯度法">3.2 霍夫梯度法</h3>
+<ol>
+<li>
+<p>寻找圆心</p>
+<p>（1）用Canny算法进行边缘检测，得到边界二值图。
+（2）用Sobel算子计算原图的梯度。
+（3）遍历边缘二值图中的非0点，沿着梯度方向和反方向画线段（梯度方向为圆弧的法线方向，即半径方向），线段的起点和长度由参数允许的半径区间决定。将线段经过的点在累加器中记数。
+（4）对累计器中的点从大到小排序，记数越大越有可能成为圆心，优先估计半径。
+<figure><a class="lightgallery" href="/images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e5%9c%86%e5%8f%98%e6%8d%a2.png" title="/images/opencv_imgs/霍夫圆变换.png" data-thumbnail="/images/opencv_imgs/霍夫圆变换.png" data-sub-html="<h2>霍夫直线变换</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e5%9c%86%e5%8f%98%e6%8d%a2.png"
+            data-srcset="/images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e5%9c%86%e5%8f%98%e6%8d%a2.png, /images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e5%9c%86%e5%8f%98%e6%8d%a2.png 1.5x, /images/opencv_imgs/%e9%9c%8d%e5%a4%ab%e5%9c%86%e5%8f%98%e6%8d%a2.png 2x"
+            data-sizes="auto"
+            alt="/images/opencv_imgs/霍夫圆变换.png" width="400px" />
+    </a><figcaption class="image-caption">霍夫直线变换</figcaption>
+    </figure></p>
+<!-- <img src="/images/opencv_imgs/霍夫圆变换.png" width = "400"  alt="霍夫直线变换" align=center /> -->
+</li>
+<li>
+<p>对某个可能的圆心作半径估计
+（1）计算所有边界图中的非0点离圆心的距离，并从小到大排序。
+（2）从小半径r开始，距离相差在一个小量范围内的点，都认为是同一个圆，记数属于该半径r的非0点数，记为n。
+（3）尝试放大半径，同样记数改半径的点数。
+（4）判断两个半径孰优孰劣的依据——点的线密度（点数n/半径r)，密度越高，半径的可信度越大。
+（5）重复以上步骤，直至半径超过参数允许的范围，从而得到最优半径。</p>
+</li>
+</ol>
+<h3 id="33-houghcircles函数">3.3 HoughCircles函数</h3>
+<p>HoughCircles函数可以利用霍夫变换算法检测出灰度图中的圆。它和之前的HoughLines和HoughLinesP比较明显的一个区别是它<strong>不需要源图是二值</strong>的，只需要是8位单通道灰度图，而HoughLines和HoughLinesP都需要源图为二值图像。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">HoughCircles</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">image</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">circles</span><span class="p">,</span>
+                  <span class="kt">int</span> <span class="n">method</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dp</span><span class="p">,</span> <span class="kt">double</span> <span class="n">minDist</span><span class="p">,</span>
+                  <span class="kt">double</span> <span class="n">param1</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="kt">double</span> <span class="n">param2</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                  <span class="kt">int</span> <span class="n">minRadius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">maxRadius</span><span class="o">=</span><span class="mi">0</span> <span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>image - InputArray类型，输入图像，即源图像，需为8位的灰度单通道图像。</li>
+<li>circles - InputArray类型，经过调用HoughCircles函数后此参数存储了检测到的圆的输出矢量，每个矢量由包含了3个元素的浮点矢量(x, y, radius)表示。</li>
+<li>method - int类型，即使用的检测方法，目前OpenCV中就霍夫梯度法一种可以使用，它的标识符为CV_HOUGH_GRADIENT，在此参数处填这个标识符即可。</li>
+<li>dp - double类型，用来检测圆心的累加器图像的分辨率于输入图像之比的倒数，且此参数允许创建一个比输入图像分辨率低的累加器。上述文字不好理解的话，来看例子吧。例如，如果dp= 1时，累加器和输入图像具有相同的分辨率。如果dp=2，累加器便有输入图像一半那么大的宽度和高度。</li>
+<li>minDist - double类型，为霍夫变换检测到的圆的圆心之间的最小距离，即让我们的算法能明显区分的两个不同圆之间的最小距离。这个参数如果太小的话，多个相邻的圆可能被错误地检测成了一个重合的圆。反之，这个参数设置太大的话，某些圆就不能被检测出来了。</li>
+<li>param1 - double类型，有默认值100。它是第三个参数method设置的检测方法的对应的参数。对当前唯一的方法霍夫梯度法CV_HOUGH_GRADIENT，它表示传递给canny边缘检测算子的高阈值，而低阈值为高阈值的一半。</li>
+<li>param2 - double类型，也有默认值100。它是第三个参数method设置的检测方法的对应的参数。对当前唯一的方法霍夫梯度法CV_HOUGH_GRADIENT，它表示在检测阶段圆心的累加器阈值。它越小的话，就可以检测到更多根本不存在的圆，而它越大的话，能通过检测的圆就更加接近完美的圆形了。</li>
+<li>minRadius - int类型，有默认值0，表示圆半径的最小值。</li>
+<li>maxRadius - int类型,也有默认值0，表示圆半径的最大值。</li>
+</ul>
+<p><a href="https://github.com/Liuyvjin/OpenCV_begin/tree/master/EX9" target="_blank" rel="noopener noreffer">参考程序</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2018-10-01</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2/" data-title="OpenCV07 霍夫变换" data-hashtags="OpenCV"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2/" data-hashtag="OpenCV"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2/" data-title="OpenCV07 霍夫变换"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2/" data-title="OpenCV07 霍夫变换"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/opencv07_%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2/" data-title="OpenCV07 霍夫变换"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/opencv/">OpenCV</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/opencv08_%E6%BC%AB%E6%B0%B4%E5%A1%AB%E5%85%85/" class="prev" rel="prev" title="OpenCV08 漫水填充"><i class="fas fa-angle-left fa-fw"></i>OpenCV08 漫水填充</a>
+            <a href="/opencv06_%E5%9B%BE%E5%83%8F%E9%87%91%E5%AD%97%E5%A1%94/" class="next" rel="next" title="OpenCV06 图像金字塔">OpenCV06 图像金字塔<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.8/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>OpenCV03 滤波 - Influx&#39;s Blog</title><meta name="Description" content="关于 LoveIt 主题"><meta property="og:title" content="OpenCV03 滤波" />
+<meta property="og:description" content="一、线性临域滤波（卷积） 滤波和模糊的联系与区别： 滤波就是高通滤波或者低通滤波等改变输入信号频率分布的操作；模糊就是低通滤波，锐化就是高通滤波" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/opencv03_%E6%BB%A4%E6%B3%A2/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-10-01T17:55:28+08:00" />
+<meta property="article:modified_time" content="2018-10-01T17:55:28+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/logo.png"/>
+
+<meta name="twitter:title" content="OpenCV03 滤波"/>
+<meta name="twitter:description" content="一、线性临域滤波（卷积） 滤波和模糊的联系与区别： 滤波就是高通滤波或者低通滤波等改变输入信号频率分布的操作；模糊就是低通滤波，锐化就是高通滤波"/>
+<meta name="application-name" content="Influx&#39;s Blog">
+<meta name="apple-mobile-web-app-title" content="Influx&#39;s Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/opencv03_%E6%BB%A4%E6%B3%A2/" /><link rel="prev" href="https://example.com/opencv04_%E5%BD%A2%E6%80%81%E5%AD%A6%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" /><link rel="next" href="https://example.com/opencv02_%E5%9F%BA%E7%A1%80/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "OpenCV03 滤波",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/opencv03_%E6%BB%A4%E6%B3%A2\/"
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  2699 ,
+        "url": "https:\/\/example.com\/opencv03_%E6%BB%A4%E6%B3%A2\/","datePublished": "2018-10-01T17:55:28+08:00","dateModified": "2018-10-01T17:55:28+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": {
+                    "@type": "ImageObject",
+                    "url": "https:\/\/example.com\/images\/avatar.png",
+                    "width":  512 ,
+                    "height":  512 
+                }},"author": {
+                "@type": "Person",
+                "name": "Influx"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">OpenCV03 滤波</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/opencv/"><i class="far fa-folder fa-fw"></i>OpenCV</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2699 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一线性临域滤波卷积">一、线性临域滤波（卷积）</a>
+      <ul>
+        <li><a href="#1-线性临域滤波的概念">1. 线性临域滤波的概念</a></li>
+        <li><a href="#2-方框滤波-boxfilter">2. 方框滤波 boxFilter</a></li>
+        <li><a href="#3-均值滤波-blur">3. 均值滤波 blur</a></li>
+        <li><a href="#4-高斯滤波-gaussianblur">4. 高斯滤波 GaussianBlur</a></li>
+      </ul>
+    </li>
+    <li><a href="#二非线性滤波">二、非线性滤波</a>
+      <ul>
+        <li><a href="#1-非线性滤波简介">1. 非线性滤波简介</a></li>
+        <li><a href="#2-中值滤波">2. 中值滤波</a></li>
+        <li><a href="#3-双边滤波">3. 双边滤波</a></li>
+      </ul>
+    </li>
+    <li><a href="#三自定义卷积">三、自定义卷积</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="一线性临域滤波卷积">一、线性临域滤波（卷积）</h2>
+<blockquote>
+<p><strong>滤波和模糊的联系与区别</strong>：</p>
+<p><strong>滤波</strong>就是高通滤波或者低通滤波等改变输入信号频率分布的操作；<strong>模糊</strong>就是低通滤波，<strong>锐化</strong>就是高通滤波。</p>
+</blockquote>
+<h3 id="1-线性临域滤波的概念">1. 线性临域滤波的概念</h3>
+<p><strong>临域算子</strong>是利用给定像素临域内的全体像素决定此像素的输出值的一种函数操作。</p>
+<p><strong>线性临域算子</strong>是一种特殊的临域算子，它对临域内像素进行线性操作。例如下图，将红色临域内像素与$h(x,y)$进行点乘输出为蓝色方块，就是线性临域操作：
+<figure><a class="lightgallery" href="/images/opencv_imgs/%e7%ba%bf%e6%80%a7%e4%b8%b4%e5%9f%9f%e6%bb%a4%e6%b3%a2.png" title="/images/opencv_imgs/线性临域滤波.png" data-thumbnail="/images/opencv_imgs/线性临域滤波.png" data-sub-html="<h2>线性临域滤波</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/images/opencv_imgs/%e7%ba%bf%e6%80%a7%e4%b8%b4%e5%9f%9f%e6%bb%a4%e6%b3%a2.png"
+            data-srcset="/images/opencv_imgs/%e7%ba%bf%e6%80%a7%e4%b8%b4%e5%9f%9f%e6%bb%a4%e6%b3%a2.png, /images/opencv_imgs/%e7%ba%bf%e6%80%a7%e4%b8%b4%e5%9f%9f%e6%bb%a4%e6%b3%a2.png 1.5x, /images/opencv_imgs/%e7%ba%bf%e6%80%a7%e4%b8%b4%e5%9f%9f%e6%bb%a4%e6%b3%a2.png 2x"
+            data-sizes="auto"
+            alt="/images/opencv_imgs/线性临域滤波.png" width="900px" />
+    </a><figcaption class="image-caption">线性临域滤波</figcaption>
+    </figure></p>
+<p>显然经过这个操作，图像的长宽各减小了2像素。</p>
+<p>像这样的$h(x,y)$称作<strong>滤波器</strong>，或者<strong>核</strong></p>
+<h3 id="2-方框滤波-boxfilter">2. 方框滤波 boxFilter</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">C</span><span class="o">++:</span> <span class="kt">void</span> <span class="n">boxFilter</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ddepth</span><span class="p">,</span>
+                    <span class="n">Size</span> <span class="n">ksize</span><span class="p">,</span> <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="n">boolnormalize</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>src，InputArray类型，输入图像，填Mat类的对象即可。该函数对通道是独立处理的，且可以处理任意通道数的图片，但需要注意，待处理的图片深度应该为CV_8U, CV_16U, CV_16S, CV_32F 以及 CV_64F之一。</li>
+<li>dst，OutputArray类型，即目标图像，需要和源图片有一样的尺寸和类型。</li>
+<li>ddepth，int类型，输出图像的深度，-1代表使用原图深度，即src.depth()。</li>
+<li>ksize，Size类型，内核的大小。一般这样写Size(w, h)来表示内核的大小( 其中，w 为像素宽度， h为像素高度)。</li>
+<li>anchor，Point类型，表示锚点（即被核中对应被平滑的那个点），注意有默认值Point(-1,-1)。如果这个点坐标是负值的话，就表示取核的中心为锚点，所以默认值表示这个锚点在核的中心。</li>
+<li>normalize，bool类型，默认值为true，一个标识符，表示内核是否归一化（normalized），也即取平均值。后面有介绍。</li>
+<li>borderType，int类型，由于卷积无法触及边缘，所以需要添加边缘，该参数指定了添加边缘的方法。有默认值BORDER_DEFAULT，我们一般不去管它。</li>
+</ul>
+<p>方框滤波一般所用的核为：
+$$
+\mathbf{K}=\alpha
+\begin{bmatrix}
+1&amp;1&amp;\cdots&amp;1\cr
+1&amp;1&amp;\cdots&amp;1\cr
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots\cr
+1&amp;1&amp;\cdots&amp;1\cr
+\end{bmatrix}
+$$</p>
+<p>其中：</p>
+<p>$$
+\alpha=
+\begin{cases}
+1\over K.width\times K.height&amp;,normalize=ture\cr
+1&amp;,normalize=false
+\end{cases}
+$$
+可见，当$normalize=ture$时，方框滤波就是均值滤波。</p>
+<h3 id="3-均值滤波-blur">3. 均值滤波 blur</h3>
+<p>均值滤波就是对视界内所有的像素取均值作为输出值。这种方法存在固有缺陷，即不能很好保护图像的细节，使得图像变模糊。</p>
+<p>在OpenCV中可以使用函数 <code>blur</code> 实现均值滤波：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">blur</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="n">Size</span> <span class="n">ksize</span><span class="p">,</span>
+          <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>参数同 <code>boxFilter()</code>。</p>
+<h3 id="4-高斯滤波-gaussianblur">4. 高斯滤波 GaussianBlur</h3>
+<p><strong>高斯滤波</strong>即核函数服从高斯分布的线性滤波。它对服从高斯分布的噪声非常有效。</p>
+<p>由于高斯函数的傅里叶变换还是高斯函数，因此它的频谱是关于y轴对称的，在x正半轴是不断衰减的。而线性滤波操作实际上是核函数与图像之间的<strong>卷积</strong>，也就是频域的<strong>乘积</strong>，因此高斯滤波相当于是一个<strong>低通滤波器</strong>。</p>
+<p>一个典型的高斯滤波核函数如下图所示：</p>
+<figure><a class="lightgallery" href="/images/opencv_imgs/%e9%ab%98%e6%96%af%e6%a0%b8%e5%87%bd%e6%95%b0.png" title="/images/opencv_imgs/高斯核函数.png" data-thumbnail="/images/opencv_imgs/高斯核函数.png" data-sub-html="<h2>高斯核函数</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/images/opencv_imgs/%e9%ab%98%e6%96%af%e6%a0%b8%e5%87%bd%e6%95%b0.png"
+            data-srcset="/images/opencv_imgs/%e9%ab%98%e6%96%af%e6%a0%b8%e5%87%bd%e6%95%b0.png, /images/opencv_imgs/%e9%ab%98%e6%96%af%e6%a0%b8%e5%87%bd%e6%95%b0.png 1.5x, /images/opencv_imgs/%e9%ab%98%e6%96%af%e6%a0%b8%e5%87%bd%e6%95%b0.png 2x"
+            data-sizes="auto"
+            alt="/images/opencv_imgs/高斯核函数.png" width="500px" />
+    </a><figcaption class="image-caption">高斯核函数</figcaption>
+    </figure>
+<p>从直观上来看，它<strong>与均值滤波的区别</strong>就是：越靠近视界中心的像素点对输出像素的影响越大。</p>
+<p>在OpenCV中可以这样使用高斯滤波：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">GaussianBlur</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="n">Size</span> <span class="n">ksize</span><span class="p">,</span>
+                  <span class="kt">double</span> <span class="n">sigmaX</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sigmaY</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                  <span class="n">intborderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>ksize，由于对称性，要满足长宽是奇数。<strong>若为（1×1）相当于没有滤波</strong></li>
+<li>sigmaX，double类型，表示高斯核函数在X方向的的标准偏差。</li>
+<li>sigmaY，double类型，表示高斯核函数在Y方向的的标准偏差。若sigmaY为零，就将它设为sigmaX，如果sigmaX和sigmaY都是0，那么就由ksize.width和ksize.height计算出来。</li>
+</ul>
+<p><a href="https://github.com/Liuyvjin/OpenCV_begin/tree/master/EX4" target="_blank" rel="noopener noreffer">滤波函数—代码</a></p>
+<h2 id="二非线性滤波">二、非线性滤波</h2>
+<h3 id="1-非线性滤波简介">1. 非线性滤波简介</h3>
+<p>在很多情况下，使用邻域像素的非线性滤波也许会得到更好的效果。比如在噪声是散粒噪声而不是高斯噪声，即图像偶尔会出现很大的值的时候。在这种情况下，用高斯滤波器对图像进行模糊的话，噪声像素是不会被去除的，它们只是转换为更为柔和但仍然可见的散粒。</p>
+<h3 id="2-中值滤波">2. 中值滤波</h3>
+<p>（1）简介：<strong>中值滤波</strong>（Median filter）是一种典型的非线性滤波技术，基本思想是用像素点邻域灰度值的<strong>中值</strong>来代替该像素点的灰度值，该方法在<strong>去除脉冲噪声、椒盐噪声</strong>的同时又能保留图像边缘细节。但是对一些细节多，特别是线、尖顶等细节多的图像不宜采用中值滤波。</p>
+<p><strong>中值滤波与均值滤波比较的优劣</strong>：在均值滤波中，噪声成分被放入平均值中，因而输出受噪声影响较大。但是中值滤波花费的时间是均值滤波的5倍以上。</p>
+<p>（2）OpenCV函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">medianBlur</span><span class="p">(</span> <span class="n">InputArray</span> <span class="n">_src0</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">_dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ksize</span> <span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>ksize，视界的尺寸（aperture linear size），注意这个参数必须是大于1的奇数，比如：3，5，7，9 &hellip;</li>
+</ul>
+<h3 id="3-双边滤波">3. 双边滤波</h3>
+<p>（1）简介：<strong>双边滤波</strong>（Bilateral filter），是结合图像的空间邻近度和像素值相似度的一种折衷处理，达到保边去噪的目的。</p>
+<p>双边滤波器的<strong>优点</strong>是可以做<strong>边缘保存</strong>（edge preserving），离的较远的像素不会太多影响到边缘上的像素值，这样就保证了边缘附近像素值的保存。但是由于保存了过多的高频信息，对于彩色图像里的高频噪声，双边滤波器不能够干净的滤掉，只能够<strong>对于低频信息进行较好的滤波</strong>。</p>
+<p>（2）核函数形式： 与一般线性滤波类似，在双边滤波器中，输出像素的值依赖于邻域像素值的加权值组合，但是权重是与临域内像素值有关的，因此是非线性的。它的<strong>权值形式与高斯滤波很类似。</strong></p>
+<ul>
+<li>高斯滤波的权值函数：</li>
+</ul>
+<p>$$
+h(c_x,c_y,x,y) = exp(-\frac{(x-c_x)^2+(y-c_y)^2}{2\sigma _d^2})
+$$
+$h(c_x,c_y,x,y)$表示$(c_x,c_y)$临域内，某一点$(x,y)$的对应的权值，所以距离中心点越远的点对应权值越小，对输出值影响也就越小。</p>
+<ul>
+<li>双边滤波的权值函数：</li>
+</ul>
+<p>$$
+h(c_x,c_y,x,y) = exp(-\frac{(x-c_x)^2+(y-c_y)^2}{2\sigma _s^2}-\frac{||f(c_x,c_y)-f(x,y)||^2}{2\sigma_c^2})
+$$
+其中$f(x,y)$表示一点的像素值，因此在考虑位置的前提下，与中心点像素值差距越大的点，对应权值越小，对输出值影响也就越小。</p>
+<p>（3）OpenCV函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">bilateralFilter</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArraydst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">d</span><span class="p">,</span>
+                     <span class="kt">double</span> <span class="n">sigmaColor</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sigmaSpace</span><span class="p">,</span>
+                     <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>d，int类型，表示在过滤过程中每个像素邻域的直径。如果这个值我们设其为非正数，那么OpenCV会从第五个参数sigmaSpace来计算出它来。</li>
+<li>sigmaColor，double类型，颜色空间滤波器的sigma值。这个参数的值越大，就表明该像素邻域内有更宽广的颜色会被混合到一起，产生较大的半相等颜色区域。</li>
+<li>sigmaSpace，double类型，坐标空间的标准方差。数值越大，意味着越远的像素会相互影响，从而使更大的区域获取相似的颜色。当d&gt;0，d指定了邻域大小且与sigmaSpace无关。否则，d正比于sigmaSpace。</li>
+</ul>
+<p><a href="https://github.com/Liuyvjin/OpenCV_begin/tree/master/EX4" target="_blank" rel="noopener noreffer">滤波函数—代码</a></p>
+<h2 id="三自定义卷积">三、自定义卷积</h2>
+<p>从上面的论述可以看出，滤波实际上就是做卷积。不同的滤波只不过是采用了不同的卷积算子。因此我们也可以自定义内核进行卷积。OpenCV提供了<code>filter2D</code>函数来完成这个操作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">filter2D</span><span class="p">(</span> <span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ddepth</span><span class="p">,</span>
+              <span class="n">InputArray</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+              <span class="kt">double</span> <span class="n">delta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>kernel - InputArray类型，卷积用的核，可以用如下方法定义：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">Mat</span> <span class="n">kernel</span> <span class="o">=</span> <span class="p">(</span><span class="n">Mat_</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">Mat</span> <span class="n">kernel</span> <span class="o">=</span> <span class="p">(</span><span class="n">Mat_</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2018-10-01</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/opencv03_%E6%BB%A4%E6%B3%A2/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/opencv03_%E6%BB%A4%E6%B3%A2/" data-title="OpenCV03 滤波" data-hashtags="OpenCV"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/opencv03_%E6%BB%A4%E6%B3%A2/" data-hashtag="OpenCV"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/opencv03_%E6%BB%A4%E6%B3%A2/" data-title="OpenCV03 滤波"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/opencv03_%E6%BB%A4%E6%B3%A2/" data-title="OpenCV03 滤波"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/opencv03_%E6%BB%A4%E6%B3%A2/" data-title="OpenCV03 滤波"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/opencv/">OpenCV</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/opencv04_%E5%BD%A2%E6%80%81%E5%AD%A6%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" class="prev" rel="prev" title="OpenCV04 形态学图像处理"><i class="fas fa-angle-left fa-fw"></i>OpenCV04 形态学图像处理</a>
+            <a href="/opencv02_%E5%9F%BA%E7%A1%80/" class="next" rel="next" title="OpenCV02 基础">OpenCV02 基础<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.8/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.2.0/dist/js/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lg-zoom.js@1.2.0/dist/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

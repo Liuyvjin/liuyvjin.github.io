@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Cross Entropy Loss详解 - Influx&#39;s Blog</title><meta name="Description" content="关于 LoveIt 主题"><meta property="og:title" content="Cross Entropy Loss详解" />
+<meta property="og:description" content="pytorch中的CrossEntropyLoss究竟干了什么?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/cross-entropy-loss/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-11T14:04:04+08:00" />
+<meta property="article:modified_time" content="2021-10-11T14:04:04+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/logo.png"/>
+
+<meta name="twitter:title" content="Cross Entropy Loss详解"/>
+<meta name="twitter:description" content="pytorch中的CrossEntropyLoss究竟干了什么?"/>
+<meta name="application-name" content="Influx&#39;s Blog">
+<meta name="apple-mobile-web-app-title" content="Influx&#39;s Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/cross-entropy-loss/" /><link rel="prev" href="https://example.com/git%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Cross Entropy Loss详解",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/cross-entropy-loss\/"
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "机器学习, loss","wordcount":  973 ,
+        "url": "https:\/\/example.com\/cross-entropy-loss\/","datePublished": "2021-10-11T14:04:04+08:00","dateModified": "2021-10-11T14:04:04+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": {
+                    "@type": "ImageObject",
+                    "url": "https:\/\/example.com\/images\/avatar.png",
+                    "width":  512 ,
+                    "height":  512 
+                }},"author": {
+                "@type": "Person",
+                "name": "Influx"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Cross Entropy Loss详解</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw"></i>机器学习</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-10-11">2021-10-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 973 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-logits">1 logits</a></li>
+    <li><a href="#2-softmax">2 softmax</a></li>
+    <li><a href="#3-交叉熵损失-cross-entropy-loss">3 交叉熵损失 Cross Entropy Loss</a></li>
+    <li><a href="#4-反向传播">4 反向传播</a></li>
+    <li><a href="#5-torchnncrossentropylosshttpspytorchorgdocsstablegeneratedtorchnncrossentropylosshtml-究竟干了什么">5 <a href="https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html">torch.nn.CrossEntropyLoss</a> 究竟干了什么</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>pytorch中的<code>CrossEntropyLoss</code>究竟干了什么?</p>
+<h2 id="1-logits">1 logits</h2>
+<p>一般多分类模型的原始输出称为<strong><ruby><code>logits</code><rt>batchsize x class_nums</rt></ruby></strong>, 可将其理解为没有标准化的概率.
+<code>logits</code>不必在$0\sim 1$之间, 也不必满足每个样本各种情况概率相加等于1.</p>
+<h2 id="2-softmax">2 softmax</h2>
+<p><code>softmax</code> 可以将logits标准化, 设其中一个样本的logit为:
+$$
+\begin{equation}
+logit = [a_1, a_2, a_3, \cdots, a_c]
+\end{equation}
+$$</p>
+<p>若将logits解释成没有归一化的对数概率:
+$$\begin{equation} a_i = \ln{b_i}, i=1\sim c \end{equation}$$
+那么对其做指数操作并归一化，就可以得到标准化的概率. 因此softmax的公式为:
+$$ \begin{equation}
+q_i = \frac{e^{a_i}}{\sum_{j=1}^{c}e^{a_j}}
+\end{equation} $$</p>
+<h2 id="3-交叉熵损失-cross-entropy-loss">3 交叉熵损失 Cross Entropy Loss</h2>
+<p>在有监督多分类问题中, <code>one-hot</code>编码相当于样本的真实概率分布<code>p</code>, 而模型预测的logit经过softmax得到了预测的概率分布<code>q</code>, 因此可以方便地采用交叉熵作为损失函数:
+$$ \begin{equation}
+Loss = \sum_j^c p_j \ln \frac{p_j}{q_j}
+\end{equation} $$
+而<code>one-hot</code>编码中只有一项为1, 不妨设$p_k=1$, 则损失函数变为:
+$$ \begin{equation}
+Loss = -\ln q_k
+\end{equation} $$</p>
+<h2 id="4-反向传播">4 反向传播</h2>
+<p>在梯度的反向传播中需要求loss对模型输出的导数, 也即: $\frac{\partial L}{\partial a_i}, i=1\sim c$.</p>
+<div>
+$$
+\begin{equation}
+\begin{split}
+\frac{\partial L}{\partial a_i} =&  \frac{-\partial \ln q_k}{\partial a_i}= -\frac{1}{q_k} \frac{\partial q_k}{\partial a_i} \\ \\
+=&\begin{cases}
+   { \begin{split}
+    -\frac{1}{q_k} \frac{\partial \frac{e^{a_k}}{\sum e^{a_j}} }{\partial a_k} =
+    -\frac{1}{q_k} \frac{e^{a_k}\sum e^{a_j}-(e^{a_k})^2}{(\sum e^{a_j})^2} =
+    -\frac{1}{q_k}\cdot q_k (1-q_k) = q_k-1 \end{split}} &\text{, if } i=k \\ \\
+   { \begin{split}
+    -\frac{1}{q_k} \frac{\partial \frac{e^{a_k}}{\sum e^{a_j}} }{\partial a_i} =
+    \frac{1}{q_k} \frac{e^{a_k}e^{a_i}}{(\sum e^{a_j})^2} =
+    \frac{1}{q_k}\cdot q_k \cdot q_i = q_i \end{split}}  &\text{, if } i\neq k
+\end{cases}
+\end{split}
+\end{equation}
+$$
+</div>
+<h2 id="5-torchnncrossentropylosshttpspytorchorgdocsstablegeneratedtorchnncrossentropylosshtml-究竟干了什么">5 <a href="https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html" target="_blank" rel="noopener noreffer">torch.nn.CrossEntropyLoss</a> 究竟干了什么</h2>
+<p><code>CrossEntropyLoss</code> 输入为 logits, 输出为交叉熵损失。</p>
+<p>也就是包含 softmax 和 交叉熵$-ln()$ 两个步骤:
+$$
+\begin{equation}
+loss(x,class)=−\ln\left(\frac{e^{x[class]}}{\sum_j e^{x[j]}} \right)=-x[class]+\ln \left( \sum_j e^{x[j]} \right)
+\end{equation}
+$$</p>
+<p>把两步操作写成一个op, 目的是为了让反向传播梯度更加稳定, 从式(6)中可以看出, softmax的梯度是$p(1-p)$, 而交叉熵的梯度是$-1/p$, 后者在$p\to 0$的时候并不稳定, 而将两者相乘可以抵消掉分母的$p$.</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>注意<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>还有另一种计算交叉熵损失的步骤使用 <code>LogSoftmax</code> + <strong><ruby><code>NLLLoss</code><rt>negative log likelihood loss</rt></ruby></strong> 能够到达跟<code>CrossEntropyLoss</code>一样的效果.</p>
+<p>其中 <code>LogSoftmax()(logits)</code> 等效于 <code>log(Softmax()(logits))</code>, 即通过logits先计算标准化概率, 再取对数概率$y$:
+$$
+y_i = \ln \left( \frac{e^{x[i]}}{\sum_j e^{x[j]}} \right)
+$$</p>
+<p><code>NLLLoss</code>的作用是根据标签选择对应的对数概率, 并添加负号:
+$$
+loss(y, class) = -y[class]
+$$
+两种方法殊途同归, 虽然使用的是不同函数, 但本质是同一个公式, 并且<code>LogSoftmax</code>也将两个操作写成了一个op.</p>
+<p>参考代码如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>  <span class="p">[</span> <span class="mf">1.1316</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7943</span><span class="p">,</span>  <span class="mf">0.1328</span><span class="p">],</span>
+                        <span class="p">[</span> <span class="mf">0.2654</span><span class="p">,</span>  <span class="mf">0.1978</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0265</span><span class="p">],</span>
+                        <span class="p">[</span><span class="o">-</span><span class="mf">2.8054</span><span class="p">,</span>  <span class="mf">0.2867</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1517</span><span class="p">]])</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span>
+<span class="n">softmax</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">logsoftmax</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">LogSoftmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">nlll</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">NLLLoss</span><span class="p">()</span>
+<span class="n">crossentropyloss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">softmax</span><span class="p">(</span><span class="nb">input</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="n">softmax</span><span class="p">(</span><span class="nb">input</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nll</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="n">softmax</span><span class="p">(</span><span class="nb">input</span><span class="p">)),</span> <span class="n">target</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">crossentropyloss</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div></div>
+        </div>
+    </div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-10-11</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/cross-entropy-loss/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/cross-entropy-loss/" data-title="Cross Entropy Loss详解" data-hashtags="机器学习,loss"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/cross-entropy-loss/" data-hashtag="机器学习"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/cross-entropy-loss/" data-title="Cross Entropy Loss详解"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/cross-entropy-loss/" data-title="Cross Entropy Loss详解"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/cross-entropy-loss/" data-title="Cross Entropy Loss详解"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>,&nbsp;<a href="/tags/loss/">loss</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/git%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/" class="prev" rel="prev" title="Git代理配置"><i class="fas fa-angle-left fa-fw"></i>Git代理配置</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.8/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
