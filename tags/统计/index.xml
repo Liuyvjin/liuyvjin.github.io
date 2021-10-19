@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>统计 - 标签 - Influx&#39;s Blog</title>
+        <link>https://example.com/tags/%E7%BB%9F%E8%AE%A1/</link>
+        <description>统计 - 标签 - Influx&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>liuyvjin@qq.com (influx)</managingEditor>
+            <webMaster>liuyvjin@qq.com (influx)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 19 Oct 2021 15:52:46 &#43;0800</lastBuildDate><atom:link href="https://example.com/tags/%E7%BB%9F%E8%AE%A1/" rel="self" type="application/rss+xml" /><item>
+    <title>均值, 方差递推公式</title>
+    <link>https://example.com/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/</link>
+    <pubDate>Tue, 19 Oct 2021 15:52:46 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/</guid>
+    <description><![CDATA[]]></description>
+</item></channel>
+</rss>

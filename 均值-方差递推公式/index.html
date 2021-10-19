@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>均值, 方差递推公式 - Influx&#39;s Blog</title><meta name="Description" content="关于 LoveIt 主题"><meta property="og:title" content="均值, 方差递推公式" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-19T15:52:46+08:00" />
+<meta property="article:modified_time" content="2021-10-19T15:52:46+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/logo.png"/>
+
+<meta name="twitter:title" content="均值, 方差递推公式"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="Influx&#39;s Blog">
+<meta name="apple-mobile-web-app-title" content="Influx&#39;s Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/" /><link rel="prev" href="https://example.com/cross-entropy-loss/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "均值, 方差递推公式",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F\/"
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "数学, 统计","wordcount":  721 ,
+        "url": "https:\/\/example.com\/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F\/","datePublished": "2021-10-19T15:52:46+08:00","dateModified": "2021-10-19T15:52:46+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": {
+                    "@type": "ImageObject",
+                    "url": "https:\/\/example.com\/images\/avatar.png",
+                    "width":  512 ,
+                    "height":  512 
+                }},"author": {
+                "@type": "Person",
+                "name": "Influx"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">均值, 方差递推公式</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E5%AD%A6/"><i class="far fa-folder fa-fw"></i>数学</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-10-19">2021-10-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 721 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#问题描述">问题描述</a></li>
+    <li><a href="#方差与均值">方差与均值</a></li>
+    <li><a href="#均值和方差的递推公式">均值和方差的递推公式</a></li>
+    <li><a href="#python-实现">Python 实现</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="问题描述">问题描述</h2>
+<p>在一般的数学统计过程中, 为了求得方差和均值, 需要预先知道所有的数据项. 但是在大数据, 流式处理场景, 无法预知所有数据项, 若采用一般的计算方案, 需要缓存所有的数据, 并且每次计算都要遍历一次, 这非常耗费资源.
+因此, 有必要使用递推的方法, 通过之前的均值, 方差, 数据量, 以及当前的样本值来计算出当前的均值和方差.</p>
+<p>设:</p>
+<ul>
+<li>$n$ : 当前采样数</li>
+<li>$x_i$ : 第 $i$ 项采样的数据值</li>
+<li>$\bar{x}_i$ : 前 $i$ 项的平均值</li>
+<li>$v_i^2$ : 前 $i$ 项的方差估计值</li>
+</ul>
+<p>则问题描述为: 已知 $n, x_{n}, \bar{x}_{n-1}, v_{n-1}, (n &gt; 0)$, 求 $\bar{x}_n, v_n^2$.</p>
+<h2 id="方差与均值">方差与均值</h2>
+<p>均值的估计量为:</p>
+<p>$$
+\bar{x} = \frac{\sum_{i=1}^n x_i}{n}
+$$</p>
+<p>在知道总体均值 $\mu$ 时, 有总体方差计算公式:</p>
+<p>$$
+\sigma^2 = \frac{\sum_{i=1}^N (x_i - \mu)^2}{N}
+$$</p>
+<p>实际工作中, 总体均数难以得到时, 应用样本统计量代替总体均值, 方差的无偏估计量如下:</p>
+<p>$$
+S^2 = \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}
+$$</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>注意<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>注意方差的无偏估计量分母为 $n-1$, 但是在实际操作中, 有时为了计算简便, 可以用 $n$ 代替.</p>
+<p><code>numpy.var()</code>函数可用于计算方差, 它使用的默认分母就是 $n$. 可以通过参数<code>ddof</code>来改变分母为 $n-ddof$.</p>
+</div>
+        </div>
+    </div>
+<h2 id="均值和方差的递推公式">均值和方差的递推公式</h2>
+<p><strong>均值递推公式:</strong></p>
+<div>
+$$
+\bar{x}_n = \frac{\sum_{i=1}^n x_i}{n} = \frac{\sum_{i=1}^{n-1} x_i + x_n}{n}
+    = \frac{(n-1)\bar{x}_{n-1}+x_n}{n}
+$$
+</div>
+<p><strong>方差递推公式:</strong></p>
+<p>若采用分母为 $n$ 的公式, 设 $d\bar{x} = -\bar{x}_{n} + \bar{x}_{n-1}$:</p>
+<div>
+$$
+\begin{split}
+v_n^2 = &\frac{\sum_{i=1}^n (x_i - \bar{x}_n)^2}{n} \\
+    = & \frac{\sum_{i=1}^{n-1} (x_i - \bar{x}_n)^2 + (x_n-\bar{x}_n)^2}{n}\\
+    = & \frac{\sum_{i=1}^{n-1} (x_i - \bar{x}_{n-1}+d\bar{x})^2 + (x_n-\bar{x}_n)^2}{n}\\
+    = & \frac{\sum_{i=1}^{n-1} \left[ \underbrace{(x_i - \bar{x}_{n-1}) ^2 }_{=(n-1)v_{n-1}^2} +
+        \underbrace{2(x_i - \bar{x}_{n-1})}_{\text{=0}}d\bar{x} +d\bar{x}^2 \right] + (x_n-\bar{x}_n)^2}{n}  \\ \\
+    = & \frac{(n-1)v_{n-1}^2 + (n-1)d\bar{x}^2 + (x_n-\bar{x}_n)^2}{n}, (n\geq 1)\\
+\end{split}
+$$
+<p>若采用无偏估计, 分母为 $n-1$ 的公式:</p>
+<div>
+$$
+v_n^2 = \frac{(n-2)v_{n-1}^2 + (n-1)d\bar{x}^2 + (x_n-\bar{x}_n)^2}{n-1}, (n\geq 2)\\
+$$
+</div>
+<h2 id="python-实现">Python 实现</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">new_mean_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">old_mean</span><span class="p">,</span> <span class="n">old_var</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">int</span><span class="p">:</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    均值以及方差递推公式, 已知n个样本下的均值和方差, 计算加入第 n+1 个样本后的均值和方差
+</span><span class="s2">
+</span><span class="s2">    Args:
+</span><span class="s2">        x (float): 新的采样值
+</span><span class="s2">        old_mean (float): n个样本时的均值
+</span><span class="s2">        old_var (float): n个样本时的方差
+</span><span class="s2">        n (int): 已统计样本数 n &gt;= 0
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="n">new_mean</span> <span class="o">=</span>  <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">old_mean</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">dmean</span> <span class="o">=</span> <span class="n">old_mean</span> <span class="o">-</span> <span class="n">new_mean</span>
+    <span class="n">new_var</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">old_var</span> <span class="o">+</span> <span class="n">n</span> <span class="o">*</span> <span class="n">dmean</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">new_mean</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_mean</span><span class="p">,</span> <span class="n">new_var</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;np   mean: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">[:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s1">, var: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">a</span><span class="p">[:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">mean</span><span class="p">,</span> <span class="n">var</span> <span class="o">=</span> <span class="n">new_mean_var</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">var</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;anas mean: </span><span class="si">{</span><span class="n">mean</span><span class="si">}</span><span class="s1">, var: </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-10-19</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/" data-title="均值, 方差递推公式" data-hashtags="数学,统计"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/" data-hashtag="数学"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/" data-title="均值, 方差递推公式"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/" data-title="均值, 方差递推公式"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/" data-title="均值, 方差递推公式"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>,&nbsp;<a href="/tags/%E7%BB%9F%E8%AE%A1/">统计</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/cross-entropy-loss/" class="prev" rel="prev" title="Cross Entropy Loss详解"><i class="fas fa-angle-left fa-fw"></i>Cross Entropy Loss详解</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.8/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

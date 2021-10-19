@@ -4,7 +4,14 @@
         <link>https://example.com/posts/</link>
         <description>所有文章 | Influx&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>liuyvjin@qq.com (influx)</managingEditor>
-            <webMaster>liuyvjin@qq.com (influx)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 11 Oct 2021 14:04:04 &#43;0800</lastBuildDate><atom:link href="https://example.com/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>liuyvjin@qq.com (influx)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 19 Oct 2021 15:52:46 &#43;0800</lastBuildDate><atom:link href="https://example.com/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>均值, 方差递推公式</title>
+    <link>https://example.com/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/</link>
+    <pubDate>Tue, 19 Oct 2021 15:52:46 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
     <title>Cross Entropy Loss详解</title>
     <link>https://example.com/cross-entropy-loss/</link>
     <pubDate>Mon, 11 Oct 2021 14:04:04 &#43;0800</pubDate>
@@ -67,12 +74,5 @@
     <author>作者</author>
     <guid>https://example.com/emoji-%E6%94%AF%E6%8C%81/</guid>
     <description><![CDATA[<p>Emoji 可以通过多种方式在 Hugo 项目中启用.</p>]]></description>
-</item><item>
-    <title>OpenCV01 Mat类详解</title>
-    <link>https://example.com/opencv01_mat%E7%B1%BB%E8%AF%A6%E8%A7%A3/</link>
-    <pubDate>Mon, 01 Oct 2018 17:55:28 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://example.com/opencv01_mat%E7%B1%BB%E8%AF%A6%E8%A7%A3/</guid>
-    <description><![CDATA[一、属性 矩阵的结构：rows × rows × channels，矩阵一个的元素是指包含所有channels的，而不是指一个通道，所以有rows × rows]]></description>
 </item></channel>
 </rss>
