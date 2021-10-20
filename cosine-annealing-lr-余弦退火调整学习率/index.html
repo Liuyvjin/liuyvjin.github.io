@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>CosineAnnealingLR-余弦退火调整学习率 - Influx&#39;s Blog</title><meta name="Description" content="关于 LoveIt 主题"><meta property="og:title" content="CosineAnnealingLR-余弦退火调整学习率" />
+<meta property="og:description" content="余弦退火学习率调整策略的原理和应用." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-20T13:56:54+08:00" />
+<meta property="article:modified_time" content="2021-10-20T13:56:54+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/logo.png"/>
+
+<meta name="twitter:title" content="CosineAnnealingLR-余弦退火调整学习率"/>
+<meta name="twitter:description" content="余弦退火学习率调整策略的原理和应用."/>
+<meta name="application-name" content="Influx&#39;s Blog">
+<meta name="apple-mobile-web-app-title" content="Influx&#39;s Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/" /><link rel="prev" href="https://example.com/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "CosineAnnealingLR-余弦退火调整学习率",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87\/"
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "机器学习, pytorch","wordcount":  1040 ,
+        "url": "https:\/\/example.com\/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87\/","datePublished": "2021-10-20T13:56:54+08:00","dateModified": "2021-10-20T13:56:54+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": {
+                    "@type": "ImageObject",
+                    "url": "https:\/\/example.com\/images\/avatar.png",
+                    "width":  512 ,
+                    "height":  512 
+                }},"author": {
+                "@type": "Person",
+                "name": "Influx"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">CosineAnnealingLR-余弦退火调整学习率</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="far fa-folder fa-fw"></i>机器学习</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-10-20">2021-10-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1040 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#原理">原理</a>
+      <ul>
+        <li><a href="#1-cosineannealinglr-余弦退火学习率">1. CosineAnnealingLR 余弦退火学习率</a></li>
+        <li><a href="#2-cosineannealingwarmrestarts">2. CosineAnnealingWarmRestarts</a></li>
+        <li><a href="#3-steplr">3. StepLR</a></li>
+        <li><a href="#4-论文中的对比">4. 论文中的对比</a></li>
+      </ul>
+    </li>
+    <li><a href="#python-实验">Python 实验</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>余弦退火学习率调整策略的原理和应用.</p>
+<h2 id="原理">原理</h2>
+<p>在神经网络训练的过程中, 随机梯度下降( <em><strong>Stochastic Gradient Descent, SGD</strong></em> ) 是一种常用的优化算法:</p>
+<p>$$
+\bm{x}_{t+1} = \bm{x}_t - \eta_t \nabla f_t (\bm{x}_t)
+$$</p>
+<p>其中 $\eta_t$ 为学习率. 通常在训练刚开始时, 学习率较大以加快训练进程, 当模型趋近收敛时, 学习率较小避免振荡. 实际操作中, 有许多种学习率调整策略, <code>Pytorch</code> 中的 <code>torch.optim.lr_scheduler</code> 模块内集成了多种根据 <code>epoch</code> 调整 <code>lr</code> 的类可供选择, 本文主要介绍其中的两种 <code>CosineAnnealingLR</code> 和 <code>CosineAnnealingWarmRestarts</code>, 这两种方法都参考论文: <a href="https://arxiv.org/abs/1608.03983" target="_blank" rel="noopener noreffer">SGDR: Stochastic Gradient Descent with Warm Restarts</a>, 前者只实现了余弦部分, 后者为论文中提出的方法.</p>
+<h3 id="1-cosineannealinglr-余弦退火学习率">1. CosineAnnealingLR 余弦退火学习率</h3>
+<blockquote>
+<p>torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max, eta_min=0)</p>
+</blockquote>
+<p>这种方法调整的学习率随 <code>epoch</code> 的变化呈余弦曲线形式.</p>
+<p>设 $T_{max}$ 为余弦周期, $T_{cur}$ 为当前周期数, 这个值通常为从开始到现在经过的 <code>epoch</code> 数, $[\eta_{min}, \eta_{max}]$ 为学习率的取值范围. 则该方法表达式为:
+$$
+\eta_t = \eta_{min} + \frac{1}{2} (\eta_{max} - \eta_{min}) \left( 1 + \cos{\left( \frac{T_{cur}}{T_{max}} \pi \right)} \right)
+$$</p>
+<p>当 $T_{cur}=0$ 时, $\eta_t=\eta_{max}$, 接着不断下降, 当 $T_{cur}=T_{max}$ 时, $\eta_t=\eta_{min}$, 然后开始上升, 如此循环往复.</p>
+<h3 id="2-cosineannealingwarmrestarts">2. CosineAnnealingWarmRestarts</h3>
+<blockquote>
+<p>torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0, T_mult=1, eta_min=0)</p>
+</blockquote>
+<p>这种方法在 <code>CosineAnnealingLR</code> 的基础上添加了 <strong>Restarts</strong> 策略. 这种策略下, 学习率变化不再是连续的余弦曲线, 而是由许多段 $0 \sim \pi$ 的余弦曲线相连, 每一段都被看成是一次新的 <strong>run</strong>, 包含了学习率从最大值 $\eta_{max}^i$ 经过 $T_{i}$ 个周期逐渐变化到最小值 $\eta_{min}^i$ 的过程, 其中 $i$ 为 run 的索引. 表达式为:</p>
+<p>$$
+\eta_t = \eta_{min}^i + \frac{1}{2} (\eta_{max}^i - \eta_{min}^i) \left( 1 + \cos{\left( \frac{T_{cur}}{T_{i}} \pi \right)} \right)
+$$</p>
+<p>式中的 $T_{cur}$ 为从上一次 Restart 后经过的 <code>epoch</code> 数, 它可以取小数值.</p>
+<p>当 $T_{cur}=0$ 时, $\eta_t=\eta_{max}^i$, 然后不断下降, 当 $T_{cur}=T_{i}$ 时, $\eta_t=\eta_{min}^i$, 紧接着下一个循环 Restart , 更新 $T_{cur}=0, i=i+1$.</p>
+<p>由于每次 run 的参数是独立的, 因此可以根据 $i$ 来调整每次 run 的参数 $T_i, \eta_{max}^i, \eta_{min}^i$, 例如让 $T_i$ 逐渐增大, 让 $\eta_{max}^i, \eta_{min}^i$ 逐渐变小. <code>Pytorch</code> 的接口提供了 $T_{mult}$ 参数, 可以让 $T_i$ 按照 $T_{i+1}=T_i\times T_{mult}$ 的规律增长.</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>注意<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">在使用 <code>CosineAnnealingWarmRestarts</code> 时, 模型表现会周期性变差, 表现最好的模型参数应当在最后一个 run 的结束处, 即 $\eta_t=\eta_{min}^i$ 时取得.</div>
+        </div>
+    </div>
+<h3 id="3-steplr">3. StepLR</h3>
+<p>顺便介绍一下最常见的学习率调节方法 <code>StepLR</code>.</p>
+<blockquote>
+<p>torch.optim.lr_scheduler.StepLR(optimizer, step_size, gamma=0.1)</p>
+</blockquote>
+<p>这种方法非常简单, 就是每经过 <code>step_size</code> 个周期, 更新 $\eta = \eta \times gamma$</p>
+<h3 id="4-论文中的对比">4. 论文中的对比</h3>
+<figure><a class="lightgallery" href="/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/lr_schedule.png" title="/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/lr_schedule.png" data-thumbnail="/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/lr_schedule.png" data-sub-html="<h2>Learning rate schedule</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="lr_schedule.png"
+            data-srcset="/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/lr_schedule.png, lr_schedule.png 1.5x, /cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/lr_schedule.png 2x"
+            data-sizes="auto"
+            alt="/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/lr_schedule.png" width="800px" />
+    </a><figcaption class="image-caption">Learning rate schedule</figcaption>
+    </figure>
+<ul>
+<li>蓝色曲线: StepLR, $\eta_0=0.1$</li>
+<li>红色曲线: StepLR, $\eta_0=0.05$</li>
+<li>绿色曲线: Cosine Annealing with Warm Restarts, $T_0=50, T_mult=1$</li>
+<li>黑色曲线: Cosine Annealing with Warm Restarts, $T_0=100, T_mult=1$</li>
+<li>灰色曲线: Cosine Annealing with Warm Restarts, $T_0=200, T_mult=1$</li>
+<li>深绿曲线: Cosine Annealing with Warm Restarts, $T_0=1, T_mult=2$</li>
+<li>洋红曲线: Cosine Annealing with Warm Restarts, $T_0=10, T_mult=2$</li>
+</ul>
+<p>论文经验性地指出, 使用 Cosine Annealing with Warm Restarts , 可以用 $ 1/2 \sim 1/4 $ 倍的其他方法所需 <code>epochs</code>, 达到与它们差不多甚至更好的性能.</p>
+<h2 id="python-实验">Python 实验</h2>
+<p>可视化这几种策略的学习率变化曲线如下所示.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.optim.lr_scheduler</span> <span class="kn">import</span> <span class="n">CosineAnnealingLR</span><span class="p">,</span> <span class="n">CosineAnnealingWarmRestarts</span><span class="p">,</span> <span class="n">StepLR</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">param</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">([</span><span class="n">param</span><span class="p">,],</span> <span class="n">lr</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+
+<span class="n">step_lr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">StepLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">cos_lr</span> <span class="o">=</span> <span class="n">CosineAnnealingLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">T_max</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">eta_min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cos_lr_restart</span> <span class="o">=</span> <span class="n">CosineAnnealingWarmRestarts</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">T_0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">T_mult</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">eta_min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cos_lr_restart_2</span> <span class="o">=</span> <span class="n">CosineAnnealingWarmRestarts</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">T_0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">T_mult</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">eta_min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">lr1</span><span class="p">,</span> <span class="n">lr2</span><span class="p">,</span> <span class="n">lr3</span><span class="p">,</span> <span class="n">lr4</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">cos_lr</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">lr2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cos_lr</span><span class="o">.</span><span class="n">get_last_lr</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">cos_lr_restart</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">lr3</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cos_lr_restart</span><span class="o">.</span><span class="n">get_last_lr</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">cos_lr_restart_2</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">lr4</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cos_lr_restart_2</span><span class="o">.</span><span class="n">get_last_lr</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">step_lr</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">lr1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">step_lr</span><span class="o">.</span><span class="n">get_last_lr</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">221</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lr1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Step LR&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">223</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lr2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Cosine Annealing LR&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">222</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lr3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Cosine Annealing LR with Warm Restarts (T_mult=1)&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">224</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lr4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Cosine Annealing LR with Warm Restarts (T_mult=2)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><figure><a class="lightgallery" href="/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/lr_schedule_exp.png" title="/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/lr_schedule_exp.png" data-thumbnail="/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/lr_schedule_exp.png" data-sub-html="<h2>Learning rate schedule experiment</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="lr_schedule_exp.png"
+            data-srcset="/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/lr_schedule_exp.png, lr_schedule_exp.png 1.5x, /cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/lr_schedule_exp.png 2x"
+            data-sizes="auto"
+            alt="/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/lr_schedule_exp.png" width="800px" />
+    </a><figcaption class="image-caption">Learning rate schedule experiment</figcaption>
+    </figure></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-10-20</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/" data-title="CosineAnnealingLR-余弦退火调整学习率" data-hashtags="机器学习,pytorch"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/" data-hashtag="机器学习"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/" data-title="CosineAnnealingLR-余弦退火调整学习率"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/" data-title="CosineAnnealingLR-余弦退火调整学习率"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/" data-title="CosineAnnealingLR-余弦退火调整学习率"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>,&nbsp;<a href="/tags/pytorch/">pytorch</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/%E5%9D%87%E5%80%BC-%E6%96%B9%E5%B7%AE%E9%80%92%E6%8E%A8%E5%85%AC%E5%BC%8F/" class="prev" rel="prev" title="均值, 方差递推公式"><i class="fas fa-angle-left fa-fw"></i>均值, 方差递推公式</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.8/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
