@@ -60,11 +60,11 @@ $$
 
 * 蓝色曲线: StepLR, $\eta_0=0.1$
 * 红色曲线: StepLR, $\eta_0=0.05$
-* 绿色曲线: Cosine Annealing with Warm Restarts, $T_0=50, T_mult=1$
-* 黑色曲线: Cosine Annealing with Warm Restarts, $T_0=100, T_mult=1$
-* 灰色曲线: Cosine Annealing with Warm Restarts, $T_0=200, T_mult=1$
-* 深绿曲线: Cosine Annealing with Warm Restarts, $T_0=1, T_mult=2$
-* 洋红曲线: Cosine Annealing with Warm Restarts, $T_0=10, T_mult=2$
+* 绿色曲线: Cosine Annealing with Warm Restarts, $T_0=50, T_{mult}=1$
+* 黑色曲线: Cosine Annealing with Warm Restarts, $T_0=100, T_{mult}=1$
+* 灰色曲线: Cosine Annealing with Warm Restarts, $T_0=200, T_{mult}=1$
+* 深绿曲线: Cosine Annealing with Warm Restarts, $T_0=1, T_{mult}=2$
+* 洋红曲线: Cosine Annealing with Warm Restarts, $T_0=10, T_{mult}=2$
 
 论文经验性地指出, 使用 Cosine Annealing with Warm Restarts , 可以用 $ 1/2 \sim 1/4 $ 倍的其他方法所需 `epochs`, 达到与它们差不多甚至更好的性能.
 
