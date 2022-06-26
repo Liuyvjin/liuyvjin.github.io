@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/example.com\/opencv06_%E5%9B%BE%E5%83%8F%E9%87%91%E5%AD%97%E5%A1%94\/"
-        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  1575 ,
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  1569 ,
         "url": "https:\/\/example.com\/opencv06_%E5%9B%BE%E5%83%8F%E9%87%91%E5%AD%97%E5%A1%94\/","datePublished": "2018-10-01T17:55:28+08:00","dateModified": "2018-10-01T17:55:28+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
@@ -111,7 +111,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">OpenCV06 图像金字塔</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/opencv/"><i class="far fa-folder fa-fw"></i>OpenCV</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1575 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1569 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -179,9 +179,9 @@ $$</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">void</span> <span class="n">resize</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="n">Size</span> <span class="n">dsize</span><span class="p">,</span>
-            <span class="kt">double</span> <span class="n">fx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">double</span> <span class="n">fy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">INTER_LINEAR</span> <span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">resize</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="n">Size</span> <span class="n">dsize</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">double</span> <span class="n">fx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">double</span> <span class="n">fy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">INTER_LINEAR</span> <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>
@@ -226,10 +226,10 @@ $$</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">pyrUp</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArraydst</span><span class="p">,</span>
-           <span class="k">const</span> <span class="n">Size</span><span class="o">&amp;</span> <span class="n">dstsize</span><span class="o">=</span><span class="n">Size</span><span class="p">(),</span>
-           <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">pyrUp</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArraydst</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="k">const</span> <span class="n">Size</span><span class="o">&amp;</span> <span class="n">dstsize</span><span class="o">=</span><span class="n">Size</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">           <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>dstsize，const Size&amp;类型，输出图像的大小；有默认值Size()，即默认情况下，由Size（src.cols×2，src.rows×2）来进行计算，一直需要满足下列条件：</li>
@@ -249,10 +249,10 @@ $$
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">pyrDown</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span>
-             <span class="k">const</span> <span class="n">Size</span><span class="o">&amp;</span> <span class="n">dstsize</span><span class="o">=</span><span class="n">Size</span><span class="p">(),</span>
-             <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">pyrDown</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">             <span class="k">const</span> <span class="n">Size</span><span class="o">&amp;</span> <span class="n">dstsize</span><span class="o">=</span><span class="n">Size</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">             <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>dstsize，const Size&amp;类型，输出图像的大小;有默认值Size()，即默认情况下，由Size Size((src.cols+1)/2, (src.rows+1)/2)来进行计算，且一直需要满足下列条件：</li>
@@ -294,8 +294,8 @@ $$
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

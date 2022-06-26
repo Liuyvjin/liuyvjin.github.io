@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/example.com\/opencv03_%E6%BB%A4%E6%B3%A2\/"
-        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  2699 ,
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  2686 ,
         "url": "https:\/\/example.com\/opencv03_%E6%BB%A4%E6%B3%A2\/","datePublished": "2018-10-01T17:55:28+08:00","dateModified": "2018-10-01T17:55:28+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
@@ -111,7 +111,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">OpenCV03 滤波</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/opencv/"><i class="far fa-folder fa-fw"></i>OpenCV</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2699 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2686 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -166,10 +166,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">C</span><span class="o">++:</span> <span class="kt">void</span> <span class="n">boxFilter</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ddepth</span><span class="p">,</span>
-                    <span class="n">Size</span> <span class="n">ksize</span><span class="p">,</span> <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
-                    <span class="n">boolnormalize</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">C</span><span class="o">++:</span> <span class="kt">void</span> <span class="n">boxFilter</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ddepth</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">Size</span> <span class="n">ksize</span><span class="p">,</span> <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">boolnormalize</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>src，InputArray类型，输入图像，填Mat类的对象即可。该函数对通道是独立处理的，且可以处理任意通道数的图片，但需要注意，待处理的图片深度应该为CV_8U, CV_16U, CV_16S, CV_32F 以及 CV_64F之一。</li>
@@ -208,9 +208,9 @@ $$
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">blur</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="n">Size</span> <span class="n">ksize</span><span class="p">,</span>
-          <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">blur</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="n">Size</span> <span class="n">ksize</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>参数同 <code>boxFilter()</code>。</p>
 <h3 id="4-高斯滤波-gaussianblur">4. 高斯滤波 GaussianBlur</h3>
@@ -236,10 +236,10 @@ $$
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">GaussianBlur</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="n">Size</span> <span class="n">ksize</span><span class="p">,</span>
-                  <span class="kt">double</span> <span class="n">sigmaX</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sigmaY</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                  <span class="n">intborderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">GaussianBlur</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="n">Size</span> <span class="n">ksize</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="kt">double</span> <span class="n">sigmaX</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sigmaY</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">intborderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>ksize，由于对称性，要满足长宽是奇数。<strong>若为（1×1）相当于没有滤波</strong></li>
@@ -259,8 +259,8 @@ $$
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">medianBlur</span><span class="p">(</span> <span class="n">InputArray</span> <span class="n">_src0</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">_dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ksize</span> <span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">medianBlur</span><span class="p">(</span> <span class="n">InputArray</span> <span class="n">_src0</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">_dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ksize</span> <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>ksize，视界的尺寸（aperture linear size），注意这个参数必须是大于1的奇数，比如：3，5，7，9 &hellip;</li>
@@ -291,10 +291,10 @@ $$
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">bilateralFilter</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArraydst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">d</span><span class="p">,</span>
-                     <span class="kt">double</span> <span class="n">sigmaColor</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sigmaSpace</span><span class="p">,</span>
-                     <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">bilateralFilter</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArraydst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">d</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="kt">double</span> <span class="n">sigmaColor</span><span class="p">,</span> <span class="kt">double</span> <span class="n">sigmaSpace</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>d，int类型，表示在过滤过程中每个像素邻域的直径。如果这个值我们设其为非正数，那么OpenCV会从第五个参数sigmaSpace来计算出它来。</li>
@@ -311,10 +311,10 @@ $$
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">filter2D</span><span class="p">(</span> <span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ddepth</span><span class="p">,</span>
-              <span class="n">InputArray</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
-              <span class="kt">double</span> <span class="n">delta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">filter2D</span><span class="p">(</span> <span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ddepth</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">InputArray</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">              <span class="kt">double</span> <span class="n">delta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>
@@ -325,9 +325,9 @@ $$
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">Mat</span> <span class="n">kernel</span> <span class="o">=</span> <span class="p">(</span><span class="n">Mat_</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-<span class="n">Mat</span> <span class="n">kernel</span> <span class="o">=</span> <span class="p">(</span><span class="n">Mat_</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">Mat</span> <span class="n">kernel</span> <span class="o">=</span> <span class="p">(</span><span class="n">Mat_</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Mat</span> <span class="n">kernel</span> <span class="o">=</span> <span class="p">(</span><span class="n">Mat_</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 </ul>
@@ -361,8 +361,8 @@ $$
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

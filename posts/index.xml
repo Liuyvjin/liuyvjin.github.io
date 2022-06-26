@@ -4,7 +4,14 @@
         <link>https://example.com/posts/</link>
         <description>所有文章 | Influx&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>liuyvjin@qq.com (influx)</managingEditor>
-            <webMaster>liuyvjin@qq.com (influx)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 20 Oct 2021 13:56:54 &#43;0800</lastBuildDate><atom:link href="https://example.com/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>liuyvjin@qq.com (influx)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 26 Jun 2022 21:30:57 &#43;0800</lastBuildDate><atom:link href="https://example.com/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>RealSense 标定</title>
+    <link>https://example.com/realsense%E6%A0%87%E5%AE%9A/</link>
+    <pubDate>Sun, 26 Jun 2022 21:30:57 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/realsense%E6%A0%87%E5%AE%9A/</guid>
+    <description><![CDATA[<p>Python 实现的 RealSense 相机类，以及相机标定类。</p>]]></description>
+</item><item>
     <title>CosineAnnealingLR-余弦退火调整学习率</title>
     <link>https://example.com/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/</link>
     <pubDate>Wed, 20 Oct 2021 13:56:54 &#43;0800</pubDate>
@@ -67,12 +74,5 @@
     <author>作者</author>
     <guid>https://example.com/loveit%E4%B8%BB%E9%A2%98%E6%96%87%E6%A1%A3-%E6%89%A9%E5%B1%95-shortcodes/</guid>
     <description><![CDATA[<p><strong>LoveIt</strong> 主题在 Hugo 内置的 shortcode 的基础上提供多个扩展的 shortcode.</p>]]></description>
-</item><item>
-    <title>Markdown 基本语法</title>
-    <link>https://example.com/markdown-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</link>
-    <pubDate>Sun, 01 Dec 2019 21:57:40 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://example.com/markdown-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</guid>
-    <description><![CDATA[<p>这篇文章提供了可以在 Hugo 的文章中使用的基本 Markdown 语法示例.</p>]]></description>
 </item></channel>
 </rss>

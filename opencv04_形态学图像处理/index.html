@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/example.com\/opencv04_%E5%BD%A2%E6%80%81%E5%AD%A6%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86\/"
-        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  1989 ,
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  1971 ,
         "url": "https:\/\/example.com\/opencv04_%E5%BD%A2%E6%80%81%E5%AD%A6%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86\/","datePublished": "2018-10-01T17:55:28+08:00","dateModified": "2018-10-01T17:55:28+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
@@ -111,7 +111,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">OpenCV04 形态学图像处理</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/opencv/"><i class="far fa-folder fa-fw"></i>OpenCV</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1989 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1971 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -162,11 +162,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">C</span><span class="o">++:</span> <span class="kt">void</span> <span class="n">dilate</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="n">InputArray</span> <span class="n">kernel</span><span class="p">,</span>
-                 <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="kt">int</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                 <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_CONSTANT</span><span class="p">,</span>
-                 <span class="k">const</span> <span class="n">Scalar</span><span class="o">&amp;</span> <span class="n">borderValue</span><span class="o">=</span><span class="n">morphologyDefaultBorderValue</span><span class="p">());</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">C</span><span class="o">++:</span> <span class="kt">void</span> <span class="n">dilate</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="n">InputArray</span> <span class="n">kernel</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="kt">int</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_CONSTANT</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="k">const</span> <span class="n">Scalar</span><span class="o">&amp;</span> <span class="n">borderValue</span><span class="o">=</span><span class="n">morphologyDefaultBorderValue</span><span class="p">());</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>src，InputArray类型，输入图像，图像通道的数量可以是任意的，但图像深度应为CV_8U，CV_16U，CV_16S，CV_32F或 CV_64F其中之一。</li>
@@ -184,12 +184,12 @@
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-<span class="c1">// 获取自定义核
-</span><span class="c1"></span><span class="n">Mat</span> <span class="n">element</span> <span class="o">=</span> <span class="n">getStructuringElement</span><span class="p">(</span> <span class="n">MORPH_RECT</span><span class="p">,</span>
-				<span class="n">Size</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">size</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">size</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>
-				<span class="n">Point</span><span class="p">(</span> <span class="n">size</span><span class="p">,</span> <span class="n">size</span> <span class="p">));</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 获取自定义核
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Mat</span> <span class="n">element</span> <span class="o">=</span> <span class="n">getStructuringElement</span><span class="p">(</span> <span class="n">MORPH_RECT</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">				<span class="n">Size</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">size</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">size</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">				<span class="n">Point</span><span class="p">(</span> <span class="n">size</span><span class="p">,</span> <span class="n">size</span> <span class="p">));</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>第一个参数表示内核的形状，我们可以选择如下三种形状之一：矩形: <code>MORPH_RECT</code>；交叉形: <code>MORPH_CROSS</code>；
@@ -222,11 +222,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">erode</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="n">InputArray</span> <span class="n">kernel</span><span class="p">,</span>
-           <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="kt">int</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-           <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_CONSTANT</span><span class="p">,</span>
-           <span class="k">const</span> <span class="n">Scalar</span><span class="o">&amp;</span><span class="n">orderValue</span><span class="o">=</span><span class="n">morphologyDefaultBorderValue</span><span class="p">());</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">erode</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="n">InputArray</span> <span class="n">kernel</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="n">Point</span> <span class="n">anchor</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="kt">int</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_CONSTANT</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="k">const</span> <span class="n">Scalar</span><span class="o">&amp;</span><span class="n">orderValue</span><span class="o">=</span><span class="n">morphologyDefaultBorderValue</span><span class="p">());</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>参数同dilate。</p>
 <p><a href="https://github.com/Liuyvjin/OpenCV_begin/tree/master/EX5" target="_blank" rel="noopener noreffer">膨胀与腐蚀代码</a></p>
@@ -322,10 +322,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">morphologyEx</span><span class="p">(</span> <span class="n">InputArray</span> <span class="n">_src</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">_dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">op</span><span class="p">,</span>
-                  <span class="n">InputArray</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">Point</span> <span class="n">anchor</span><span class="p">,</span> <span class="kt">int</span> <span class="n">iterations</span><span class="p">,</span>
-                  <span class="kt">int</span> <span class="n">borderType</span><span class="p">,</span> <span class="n">constScalar</span><span class="o">&amp;</span> <span class="n">borderValue</span> <span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">morphologyEx</span><span class="p">(</span> <span class="n">InputArray</span> <span class="n">_src</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">_dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">op</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">InputArray</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">Point</span> <span class="n">anchor</span><span class="p">,</span> <span class="kt">int</span> <span class="n">iterations</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="kt">int</span> <span class="n">borderType</span><span class="p">,</span> <span class="n">constScalar</span><span class="o">&amp;</span> <span class="n">borderValue</span> <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>
@@ -388,8 +388,8 @@
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

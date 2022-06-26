@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/example.com\/opencv05_%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B\/"
-        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  2525 ,
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  2505 ,
         "url": "https:\/\/example.com\/opencv05_%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B\/","datePublished": "2018-10-01T17:55:28+08:00","dateModified": "2018-10-01T17:55:28+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
@@ -111,8 +111,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">OpenCV05 边缘检测</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/opencv/"><i class="far fa-folder fa-fw"></i>OpenCV</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2525 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2505 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
@@ -227,10 +227,10 @@ $$
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">Canny</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">image</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">edges</span><span class="p">,</span>
-           <span class="kt">double</span> <span class="n">threshold1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">threshold2</span><span class="p">,</span>
-           <span class="kt">int</span> <span class="n">apertureSize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="kt">bool</span> <span class="n">L2gradient</span><span class="o">=</span><span class="nb">false</span> <span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">Canny</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">image</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">edges</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="kt">double</span> <span class="n">threshold1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">threshold2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">           <span class="kt">int</span> <span class="n">apertureSize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="kt">bool</span> <span class="n">L2gradient</span><span class="o">=</span><span class="nb">false</span> <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>image，InputArray类型，输入图像，即源图像，填Mat类的对象即可，且需为单通道(灰度图)8位图像。</li>
@@ -264,10 +264,10 @@ $$
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">Sobel</span> <span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ddepth</span><span class="p">,</span><span class="c1">//输出图像的深度
-</span><span class="c1"></span>            <span class="kt">int</span> <span class="n">dx</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dy</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="kt">double</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="kt">double</span> <span class="n">delta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">Sobel</span> <span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ddepth</span><span class="p">,</span><span class="c1">//输出图像的深度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kt">int</span> <span class="n">dx</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dy</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="kt">double</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">double</span> <span class="n">delta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">borderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>ddepth，int类型，输出图像的深度，支持如下src.depth()和ddepth的组合：
@@ -319,10 +319,10 @@ $$</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">Scharr</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ddepth</span><span class="p">,</span>
-            <span class="kt">int</span> <span class="n">dx</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dy</span><span class="p">,</span> <span class="kt">double</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="kt">double</span> <span class="n">delta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">intborderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">Scharr</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ddepth</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">dx</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dy</span><span class="p">,</span> <span class="kt">double</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">double</span> <span class="n">delta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">intborderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>只比<code>Scbel()</code>函数少了<code>ksize</code>参数，其余参数都相同。以下两者等价。</p>
 <div class="highlight"><div class="chroma">
@@ -331,9 +331,9 @@ $$</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">Scharr</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">ddepth</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span><span class="n">delta</span><span class="p">,</span> <span class="n">borderType</span><span class="p">);</span>
-<span class="n">Sobel</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">ddepth</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">CV_SCHARR</span><span class="p">,</span><span class="n">scale</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">borderType</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">Scharr</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">ddepth</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span><span class="n">delta</span><span class="p">,</span> <span class="n">borderType</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Sobel</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">ddepth</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">CV_SCHARR</span><span class="p">,</span><span class="n">scale</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">borderType</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="3-laplace算子">3. Laplace算子</h3>
 <p>laplace算子$ \Delta $ 是一个二阶微分算子，定义为梯度的散度：</p>
@@ -348,10 +348,10 @@ $$</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">Laplacian</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ddepth</span><span class="p">,</span>
-               <span class="kt">int</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">delta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-               <span class="n">intborderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">Laplacian</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span><span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">int</span> <span class="n">ddepth</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="kt">int</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">delta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="n">intborderType</span><span class="o">=</span><span class="n">BORDER_DEFAULT</span> <span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>
@@ -414,8 +414,8 @@ $$</p>
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

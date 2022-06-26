@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/example.com\/opencv02_%E5%9F%BA%E7%A1%80\/"
-        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  3112 ,
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV","wordcount":  3116 ,
         "url": "https:\/\/example.com\/opencv02_%E5%9F%BA%E7%A1%80\/","datePublished": "2018-10-01T17:55:28+08:00","dateModified": "2018-10-01T17:55:28+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
@@ -111,7 +111,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">OpenCV02 基础</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/opencv/"><i class="far fa-folder fa-fw"></i>OpenCV</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3112 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2018-10-01">2018-10-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3116 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -178,13 +178,13 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;opencv2/core/core.hpp&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;opencv2/highgui/highgui.hpp&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;opencv2/opencv.hpp&gt;</span><span class="cp">
-</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">cv</span><span class="p">;</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;opencv2/core/core.hpp&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;opencv2/highgui/highgui.hpp&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;opencv2/opencv.hpp&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">cv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="2-cmakeliststxt文件的配置">2. CmakeLists.txt文件的配置</h3>
 <p>在文件中添加如下两行：</p>
@@ -194,9 +194,9 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-makefile" data-lang="makefile"><span class="err">find_package(OpenCV</span> <span class="err">REQUIRED)</span>
-<span class="err">target_link_libraries(Proj_name</span> <span class="err">${OpenCV_LIBS})</span><span class="c">#Proj_name是工程名
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-makefile" data-lang="makefile"><span class="line"><span class="cl"><span class="err">find_package(OpenCV</span> <span class="err">REQUIRED)</span>
+</span></span><span class="line"><span class="cl"><span class="err">target_link_libraries(Proj_name</span> <span class="err">${OpenCV_LIBS})</span><span class="c">#Proj_name是工程名
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="二-图像的读取显示和写入">二、 图像的读取、显示和写入</h2>
 <h3 id="1-图像读取imread">1. 图像读取<code>imread</code></h3>
@@ -205,8 +205,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">Mat</span> <span class="nf">imread</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">filename</span><span class="p">,</span> <span class="n">intflags</span><span class="o">=</span><span class="mi">1</span> <span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">Mat</span> <span class="nf">imread</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">filename</span><span class="p">,</span> <span class="n">intflags</span><span class="o">=</span><span class="mi">1</span> <span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>第二个参数，int类型的flags，为载入标识，它指定一个加载图像的颜色类型。下面是一些例子：</p>
 <blockquote>
@@ -221,8 +221,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">namedWindow</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">winname</span><span class="p">,</span><span class="kt">int</span> <span class="n">flags</span><span class="o">=</span><span class="n">WINDOW_AUTOSIZE</span> <span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">namedWindow</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">winname</span><span class="p">,</span><span class="kt">int</span> <span class="n">flags</span><span class="o">=</span><span class="n">WINDOW_AUTOSIZE</span> <span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>第一个参数，const string&amp;型的name，即填被用作窗口的标识符的窗口名称。</li>
@@ -242,8 +242,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">imshow</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">winname</span><span class="p">,</span> <span class="n">InputArray</span> <span class="n">mat</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">imshow</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">winname</span><span class="p">,</span> <span class="n">InputArray</span> <span class="n">mat</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>第一个参数，const string&amp;类型的winname，填需要显示的窗口标识名称。如果没有窗口就新建一个</li>
@@ -264,9 +264,9 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">bool</span> <span class="nf">imwrite</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">filename</span><span class="p">,</span> <span class="n">InputArray</span> <span class="n">img</span><span class="p">,</span> <span class="k">const</span>
-             <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">params</span><span class="o">=</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">()</span> <span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">bool</span> <span class="nf">imwrite</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">filename</span><span class="p">,</span> <span class="n">InputArray</span> <span class="n">img</span><span class="p">,</span> <span class="k">const</span>
+</span></span><span class="line"><span class="cl">             <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">params</span><span class="o">=</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">()</span> <span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>第一个参数，const string&amp;类型的filename，填需要写入的文件名就行了，带上后缀，比如，“123.jpg”这样。</li>
@@ -284,9 +284,9 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">Mat</span> <span class="n">imageROI</span><span class="p">;</span> <span class="c1">//定义一个Mat
-</span><span class="c1"></span><span class="n">imageROI</span><span class="o">=</span><span class="n">image1</span><span class="p">(</span><span class="n">Rect</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="n">logo</span><span class="p">.</span><span class="n">cols</span><span class="p">,</span><span class="n">logo</span><span class="p">.</span><span class="n">rows</span><span class="p">));</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">Mat</span> <span class="n">imageROI</span><span class="p">;</span> <span class="c1">//定义一个Mat
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">imageROI</span><span class="o">=</span><span class="n">image1</span><span class="p">(</span><span class="n">Rect</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="n">logo</span><span class="p">.</span><span class="n">cols</span><span class="p">,</span><span class="n">logo</span><span class="p">.</span><span class="n">rows</span><span class="p">));</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>（2）Range 指定行列的范围</p>
 <p>Range是指从起始索引到终止索引（==不包括终止索引==）的一连段连续序列。cv::Range可以用来定义Range对象。如果使用cv::Range来定义ROI，那么前例中定义ROI的代码可以重写为：</p>
@@ -295,8 +295,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">imageROI</span><span class="o">=</span><span class="n">image1</span><span class="p">(</span><span class="n">Range</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span><span class="mi">250</span><span class="o">+</span><span class="n">logoImage</span><span class="p">.</span><span class="n">rows</span><span class="p">),</span><span class="n">Range</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="mi">200</span><span class="o">+</span><span class="n">logoImage</span><span class="p">.</span><span class="n">cols</span><span class="p">));</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">imageROI</span><span class="o">=</span><span class="n">image1</span><span class="p">(</span><span class="n">Range</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span><span class="mi">250</span><span class="o">+</span><span class="n">logoImage</span><span class="p">.</span><span class="n">rows</span><span class="p">),</span><span class="n">Range</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="mi">200</span><span class="o">+</span><span class="n">logoImage</span><span class="p">.</span><span class="n">cols</span><span class="p">));</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="2-将图像拷贝到roi完成叠加">2. 将图像拷贝到ROI完成叠加</h3>
 <div class="highlight"><div class="chroma">
@@ -307,11 +307,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">//加载掩模（要和原图logoImage大小相同，通道数要么相同，要么是1通道，而灰度图是单通道的）
-</span><span class="c1"></span><span class="n">Mat</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="s">&#34;logoImage.jpg&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-<span class="c1">//将logoImage在掩膜过滤下（对应掩膜为0的logoImage的像素被过滤），拷贝到ROI
-</span><span class="c1"></span><span class="n">logoImage</span><span class="p">.</span><span class="n">copyTo</span><span class="p">(</span><span class="n">imageROI</span><span class="p">,</span> <span class="n">mask</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">//加载掩模（要和原图logoImage大小相同，通道数要么相同，要么是1通道，而灰度图是单通道的）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Mat</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="s">&#34;logoImage.jpg&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//将logoImage在掩膜过滤下（对应掩膜为0的logoImage的像素被过滤），拷贝到ROI
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">logoImage</span><span class="p">.</span><span class="n">copyTo</span><span class="p">(</span><span class="n">imageROI</span><span class="p">,</span> <span class="n">mask</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="3-图像线性叠加addweighted">3. 图像线性叠加<code>addweighted</code></h3>
 <div class="highlight"><div class="chroma">
@@ -322,11 +322,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">addWeighted</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">alpha</span><span class="p">,</span>
-                  <span class="n">InputArray</span> <span class="n">src2</span><span class="p">,</span> <span class="kt">double</span> <span class="n">beta</span><span class="p">,</span>
-                  <span class="kt">double</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span>
-                 <span class="kt">int</span> <span class="n">dtype</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="err">；</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">addWeighted</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">src1</span><span class="p">,</span> <span class="kt">double</span> <span class="n">alpha</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="n">InputArray</span> <span class="n">src2</span><span class="p">,</span> <span class="kt">double</span> <span class="n">beta</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                  <span class="kt">double</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="kt">int</span> <span class="n">dtype</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="err">；</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>src1，InputArray类型，表示需要加权的第一个数组，常常填一个Mat。</li>
@@ -350,9 +350,9 @@ $$
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">split</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">src</span><span class="p">,</span> <span class="n">Mat</span><span class="o">*</span><span class="n">mvbegin</span><span class="p">);</span>
-<span class="kt">void</span> <span class="nf">split</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">m</span><span class="p">,</span><span class="n">OutputArrayOfArrays</span> <span class="n">mv</span><span class="p">);</span> <span class="c1">//第二个参数是输出的色彩通道，类型为mat的数组例如 vector&lt;mat&gt; channels(3)，分离成channels.at(1/2/3)
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">split</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">src</span><span class="p">,</span> <span class="n">Mat</span><span class="o">*</span><span class="n">mvbegin</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">split</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">m</span><span class="p">,</span><span class="n">OutputArrayOfArrays</span> <span class="n">mv</span><span class="p">);</span> <span class="c1">//第二个参数是输出的色彩通道，类型为mat的数组例如 vector&lt;mat&gt; channels(3)，分离成channels.at(1/2/3)
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="2-合并通道-merge">2. 合并通道 merge</h3>
 <div class="highlight"><div class="chroma">
@@ -361,9 +361,9 @@ $$
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">merge</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat</span><span class="o">*</span> <span class="n">mv</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">);</span>
-<span class="kt">void</span> <span class="nf">merge</span><span class="p">(</span><span class="n">InputArrayOfArrays</span> <span class="n">mv</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">merge</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat</span><span class="o">*</span> <span class="n">mv</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">merge</span><span class="p">(</span><span class="n">InputArrayOfArrays</span> <span class="n">mv</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>mv，填需要被合并的输入矩阵或vector容器的阵列，这个mv参数中所有的矩阵必须有着一样的尺寸和深度。</li>
@@ -379,10 +379,10 @@ $$
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">createTrackbar</span><span class="p">(</span><span class="n">conststring</span><span class="o">&amp;</span> <span class="n">trackbarname</span><span class="p">,</span> <span class="n">conststring</span><span class="o">&amp;</span> <span class="n">winname</span><span class="p">,</span>
-                   <span class="kt">int</span><span class="o">*</span> <span class="n">value</span><span class="p">,</span> <span class="kt">int</span> <span class="n">max</span><span class="p">,</span> <span class="n">TrackbarCallback</span> <span class="n">onChange</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                   <span class="kt">void</span><span class="o">*</span> <span class="n">userdata</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">createTrackbar</span><span class="p">(</span><span class="n">conststring</span><span class="o">&amp;</span> <span class="n">trackbarname</span><span class="p">,</span> <span class="n">conststring</span><span class="o">&amp;</span> <span class="n">winname</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="kt">int</span><span class="o">*</span> <span class="n">value</span><span class="p">,</span> <span class="kt">int</span> <span class="n">max</span><span class="p">,</span> <span class="n">TrackbarCallback</span> <span class="n">onChange</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="kt">void</span><span class="o">*</span> <span class="n">userdata</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>trackbarname，const string&amp;类型，表示轨迹条的名字，用来代表我们创建的轨迹条。</li>
@@ -398,8 +398,8 @@ $$
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">getTrackbarPos</span><span class="p">(</span><span class="n">conststring</span><span class="o">&amp;</span> <span class="n">trackbarname</span><span class="p">,</span> <span class="n">conststring</span><span class="o">&amp;</span> <span class="n">winname</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">getTrackbarPos</span><span class="p">(</span><span class="n">conststring</span><span class="o">&amp;</span> <span class="n">trackbarname</span><span class="p">,</span> <span class="n">conststring</span><span class="o">&amp;</span> <span class="n">winname</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="3-亮度和对比度调整">3. 亮度和对比度调整</h3>
 <p>亮度和对比度的调整可以由以下公式概括：
@@ -418,8 +418,8 @@ $$</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">dstImage</span> <span class="o">=</span> <span class="n">srcImage</span> <span class="o">*</span> <span class="n">ContrastValue</span> <span class="o">+</span> <span class="n">BrightValue</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">dstImage</span> <span class="o">=</span> <span class="n">srcImage</span> <span class="o">*</span> <span class="n">ContrastValue</span> <span class="o">+</span> <span class="n">BrightValue</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><a href="https://github.com/Liuyvjin/OpenCV_begin/tree/master/EX3" target="_blank" rel="noopener noreffer">用轨迹条调整亮度对比度—代码</a></p>
 </div><div class="post-footer" id="post-footer">
@@ -452,8 +452,8 @@ $$</p>
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 

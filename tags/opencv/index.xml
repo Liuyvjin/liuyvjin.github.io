@@ -4,7 +4,14 @@
         <link>https://example.com/tags/opencv/</link>
         <description>OpenCV - 标签 - Influx&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>liuyvjin@qq.com (influx)</managingEditor>
-            <webMaster>liuyvjin@qq.com (influx)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 01 Oct 2018 17:55:28 &#43;0800</lastBuildDate><atom:link href="https://example.com/tags/opencv/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>liuyvjin@qq.com (influx)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 26 Jun 2022 21:30:57 &#43;0800</lastBuildDate><atom:link href="https://example.com/tags/opencv/" rel="self" type="application/rss+xml" /><item>
+    <title>RealSense 标定</title>
+    <link>https://example.com/realsense%E6%A0%87%E5%AE%9A/</link>
+    <pubDate>Sun, 26 Jun 2022 21:30:57 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/realsense%E6%A0%87%E5%AE%9A/</guid>
+    <description><![CDATA[<p>Python 实现的 RealSense 相机类，以及相机标定类。</p>]]></description>
+</item><item>
     <title>OpenCV01 Mat类详解</title>
     <link>https://example.com/opencv01_mat%E7%B1%BB%E8%AF%A6%E8%A7%A3/</link>
     <pubDate>Mon, 01 Oct 2018 17:55:28 &#43;0800</pubDate>

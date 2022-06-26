@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/example.com\/loveit%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95\/"
-        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "hugo","wordcount":  717 ,
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "hugo","wordcount":  699 ,
         "url": "https:\/\/example.com\/loveit%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95\/","datePublished": "2021-10-10T14:32:19+08:00","dateModified": "2021-10-10T14:32:19+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
@@ -111,7 +111,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">LoveIt配置与使用记录</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/loveit-doc/"><i class="far fa-folder fa-fw"></i>loveit-doc</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-10-10">2021-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 717 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-10-10">2021-10-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 699 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -146,8 +146,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">hugo new posts/a_post.md
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hugo new posts/a_post.md
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>生成页面markdown文件时，即复制其中模板文件的内容。</p>
 <h3 id="22-assets">2.2 assets/</h3>
@@ -175,13 +175,26 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="c">&lt;!-- 可以使用 --&gt;</span>
-![<span class="nt">image</span>](<span class="na">/image.jpg</span>)
-{{<span class="p">&lt;</span> <span class="nt">image</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;/image.jpg&#34;</span> <span class="na">caption</span><span class="o">=</span><span class="s">&#34;image01&#34;</span>  <span class="na">width</span><span class="o">=</span><span class="s">200px</span> <span class="p">&gt;</span>}}  <span class="c">&lt;!-- 扩展的shortcode --&gt;</span>
-<span class="c">&lt;!-- 不能使用 --&gt;</span>
-{{<span class="p">&lt;</span> <span class="nt">figure</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;/image.jpg&#34;</span> <span class="na">title</span><span class="o">=</span><span class="s">&#34;image01&#34;</span> <span class="p">&gt;</span>}}  <span class="c">&lt;!-- 内置的shortcode --&gt;</span>
-<span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;/image.jpg&#34;</span><span class="p">/&gt;</span>  <span class="c">&lt;!-- HTML --&gt;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="c">&lt;!-- 可以使用 --&gt;</span>
+</span></span><span class="line"><span class="cl">![<span class="nt">image</span>](<span class="na">/image.jpg</span>)
+</span></span><span class="line"><span class="cl"><figure><a class="lightgallery" href="/image.jpg" title="/image.jpg" data-thumbnail="/image.jpg" data-sub-html="<h2>image01</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/image.jpg"
+            data-srcset="/image.jpg, /image.jpg 1.5x, /image.jpg 2x"
+            data-sizes="auto"
+            alt="/image.jpg" width="200px" />
+    </a><figcaption class="image-caption">image01</figcaption>
+    </figure>  <span class="c">&lt;!-- 扩展的shortcode --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- 不能使用 --&gt;</span>
+</span></span><span class="line"><span class="cl"><figure><img src="/image.jpg"/><figcaption>
+            <h4>image01</h4>
+        </figcaption>
+</figure>
+  <span class="c">&lt;!-- 内置的shortcode --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;/image.jpg&#34;</span><span class="p">/&gt;</span>  <span class="c">&lt;!-- HTML --&gt;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>调用 static/image.jpg</li>
@@ -195,12 +208,25 @@
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="c">&lt;!-- 可以使用 --&gt;</span>
-![<span class="nt">image</span>](<span class="na">/image.jpg</span>)
-{{<span class="p">&lt;</span> <span class="nt">image</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;/image.jpg&#34;</span> <span class="na">caption</span><span class="o">=</span><span class="s">&#34;image01&#34;</span>  <span class="na">width</span><span class="o">=</span><span class="s">200px</span> <span class="p">&gt;</span>}}  <span class="c">&lt;!-- 扩展的shortcode --&gt;</span>
-{{<span class="p">&lt;</span> <span class="nt">figure</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;/image.jpg&#34;</span> <span class="na">title</span><span class="o">=</span><span class="s">&#34;image01&#34;</span> <span class="p">&gt;</span>}}  <span class="c">&lt;!-- 内置的shortcode --&gt;</span>
-<span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;/image.jpg&#34;</span><span class="p">/&gt;</span>  <span class="c">&lt;!-- HTML --&gt;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="c">&lt;!-- 可以使用 --&gt;</span>
+</span></span><span class="line"><span class="cl">![<span class="nt">image</span>](<span class="na">/image.jpg</span>)
+</span></span><span class="line"><span class="cl"><figure><a class="lightgallery" href="/image.jpg" title="/image.jpg" data-thumbnail="/image.jpg" data-sub-html="<h2>image01</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/image.jpg"
+            data-srcset="/image.jpg, /image.jpg 1.5x, /image.jpg 2x"
+            data-sizes="auto"
+            alt="/image.jpg" width="200px" />
+    </a><figcaption class="image-caption">image01</figcaption>
+    </figure>  <span class="c">&lt;!-- 扩展的shortcode --&gt;</span>
+</span></span><span class="line"><span class="cl"><figure><img src="/image.jpg"/><figcaption>
+            <h4>image01</h4>
+        </figcaption>
+</figure>
+  <span class="c">&lt;!-- 内置的shortcode --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;/image.jpg&#34;</span><span class="p">/&gt;</span>  <span class="c">&lt;!-- HTML --&gt;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></div>
         </div>
@@ -255,8 +281,8 @@
 </div>
 </article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
-                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
 
