@@ -6,21 +6,21 @@
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>相机标定总结 - Influx&#39;s Blog</title><meta name="Description" content="关于 LoveIt 主题"><meta property="og:title" content="相机标定总结" />
-<meta property="og:description" content="使用 RealSense 进行手眼标定" />
+<meta property="og:description" content="相机内外参标定，手眼标定的原理。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://example.com/handeyecalibration/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-06-27T13:27:37+08:00" />
-<meta property="article:modified_time" content="2022-06-27T19:33:05+08:00" />
+<meta property="article:modified_time" content="2022-06-27T13:27:37+08:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://example.com/logo.png"/>
 
 <meta name="twitter:title" content="相机标定总结"/>
-<meta name="twitter:description" content="使用 RealSense 进行手眼标定"/>
+<meta name="twitter:description" content="相机内外参标定，手眼标定的原理。"/>
 <meta name="application-name" content="Influx&#39;s Blog">
 <meta name="apple-mobile-web-app-title" content="Influx&#39;s Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/handeyecalibration/" /><link rel="prev" href="https://example.com/realsense%E6%A0%87%E5%AE%9A/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" /><link rel="prev" href="https://example.com/realsense%E6%A0%87%E5%AE%9A/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -28,9 +28,9 @@
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https:\/\/example.com\/handeyecalibration\/"
-        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV, python","wordcount":  1295 ,
-        "url": "https:\/\/example.com\/handeyecalibration\/","datePublished": "2022-06-27T13:27:37+08:00","dateModified": "2022-06-27T19:33:05+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@id": "https:\/\/example.com\/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93\/"
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV, python","wordcount":  1980 ,
+        "url": "https:\/\/example.com\/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93\/","datePublished": "2022-06-27T13:27:37+08:00","dateModified": "2022-06-27T13:27:37+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
                     "@type": "ImageObject",
@@ -111,8 +111,8 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">相机标定总结</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/opencv/"><i class="far fa-folder fa-fw"></i>OpenCV</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-27">2022-06-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1295 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-27">2022-06-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1980 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
@@ -127,12 +127,12 @@
   </ul>
 
   <ul>
+    <li><a href="#21-相机固定于机器人末端-eye-in-hand">2.1 相机固定于机器人末端 (eye-in-hand)</a></li>
     <li><a href="#21-相机放置于机器人之外-eye-to-hand">2.1 相机放置于机器人之外 (eye-to-hand)</a></li>
-    <li><a href="#22-相机固定与机器人末端-eye-in-hand">2.2 相机固定与机器人末端 (eye-in-hand)</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p>使用 RealSense 进行手眼标定</p>
-<h1 id="1-棋盘格标定">1. 棋盘格标定</h1>
+            </div><div class="content" id="content"><p>相机内外参标定，手眼标定的原理。</p>
+<h1 id="1-内外参标定">1. 内外参标定</h1>
 <h2 id="11-棋盘格">1.1 棋盘格</h2>
 <p>棋盘格上包含有 $n\times m\ (n \neq m)$ 个点，定义世界坐标系 $O_w$ 建立在棋盘格左上角点，且以棋盘格平面作为 $x-y$ 平面。
 因此，每个格点的世界坐标也被定义。</p>
@@ -149,11 +149,12 @@
     <img src="./origin2.png" width="32%" />
     <img src="./origin3.png" width="32%" />
 </div>
-随着相机位姿的改变，世界坐标系可能会发生变化，但这不影响相机标定：
+随着相机位姿的改变，世界坐标系可能会发生变化，但这不影响相机内参标定：
 <ul>
 <li>内参：始终表示相机坐标 $O_c$ 到像素坐标 $O_p$ 的变换 $T^{cp}$</li>
-<li>外参：始终表示世界坐标 $O_w$ 到相机坐标 $O_c$ 的变换 $T^{wc}$，只是世界坐标会发生改变</li>
+<li>外参：始终表示世界坐标 $O_w$ 到相机坐标 $O_c$ 的变换 $T^{wc}$，只是世界坐标会发生改变。</li>
 </ul>
+<p>但是手眼标定时，需要固定世界坐标与机器人基座坐标的关系，此时需要用非对称棋盘格。</p>
 </div>
         </div>
     </div>
@@ -185,39 +186,80 @@ $$P^p_i = T^{wp}P^w_i$$
 $$T^{wp}_j = T^{cp} T^{wc}_j$$
 内参不随着位姿改变，因此不带下标 $j$ 。给定多张图片调用 <code>cv2.calibrateCamera</code> 即可求出<strong>内参</strong> $T^{cp}$。进一步可得到每张图片的外参 $T^{wc}_j$。</p>
 <h2 id="14-已知内参-tcp-给定一张棋盘格图片">1.4 已知内参 $T^{cp}$ 给定一张棋盘格图片</h2>
-<p>首先求出 $T^{wp}$，然后根据 $T^{wp} = T^{cp} T^{wc}$ 即可求出 $T^{wc}$，也即棋盘格坐标到相机坐标的转换矩阵。
+<p>已知内参 $T^{cp}$，首先求出 $T^{wp}$，然后根据 $T^{wp} = T^{cp} T^{wc}$ 即可求出 $T^{wc}$，也即棋盘格坐标到相机坐标的转换矩阵。
 上述算法可以调用 <code>cv2.solvePnP</code> 实现。</p>
 <h1 id="2-手眼标定">2. 手眼标定</h1>
-<p>手眼标定要求 $T^{cb}$ 或 $T^{ce}$，也即相机坐标到机器人基座或者末端坐标的转换。其中末端到基座坐标的转换矩阵 $T^{eb}$ 可以从机器人控制器读取到。</p>
-<h2 id="21-相机放置于机器人之外-eye-to-hand">2.1 相机放置于机器人之外 (eye-to-hand)</h2>
-<p>这种情况下待求量为相机到机器人基座（base）的转换矩阵 $T^{cb}$，因为这个量是固定不变的。
-具体做法为，将棋盘格固定与机器人末端，求得格点在 $O_c$ 以及 $O_b$ 的坐标，标定可得 $T^{cb}$</p>
-<h2 id="22-相机固定与机器人末端-eye-in-hand">2.2 相机固定与机器人末端 (eye-in-hand)</h2>
-<p>此时，待求量为相机到机器人末端（end）的转换矩阵 $T^{ce}$。
-做法为，将棋盘格固定于某处拍摄多张图片，记录每个位姿的 $T^{eb}_j$ 以及 $T^{wc}_i$，然后调用 <code>cv2.calibrateHandEye</code>。</p>
+<p>手眼标定要求 $T^{cb}$ 或 $T^{cg}$，也即相机坐标到机器人基座或者末端坐标的转换。其中末端到基座坐标的转换矩阵 $T^{gb}$ 可以从机器人控制器读取到。</p>
+<h2 id="21-相机固定于机器人末端-eye-in-hand">2.1 相机固定于机器人末端 (eye-in-hand)</h2>
+<p><figure><a class="lightgallery" href="./eye_in_hand_figure.png" title="./eye_in_hand_figure.png" data-thumbnail="./eye_in_hand_figure.png" data-sub-html="<h2>eye-in-hand</h2>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="./eye_in_hand_figure.png"
+            data-srcset="./eye_in_hand_figure.png, ./eye_in_hand_figure.png 1.5x, ./eye_in_hand_figure.png 2x"
+            data-sizes="auto"
+            alt="./eye_in_hand_figure.png" width="60%" />
+    </a><figcaption class="image-caption">eye-in-hand</figcaption>
+    </figure>
+坐标变换关系如上图所示，, 图中 <code>t</code> 表示 “target”, 与文中 <code>w</code> 等价。此时，待求量为相机到机器人末端（gripper）的转换矩阵 $T^{cg}$。固定棋盘格坐标（$O_w$，因此需使用非对称棋盘格）和机器人基座（$O_b$）的位置，则有：</p>
+<p>$$ T^{wb} = T^{gb}_j\times T^{cg} \times T^{wc}_j$$</p>
+<p>任取两张图片 $1, 2$ 可得：</p>
+<p>$$T^{wb} = T^{gb}_1 T^{cg} T^{wc}_1 = T^{gb}_2 T^{cg} T^{wc}_2$$
+$$\Rarr (T^{gb}_2)^{-1} T^{gb}_1 \cdot T^{cg}  = T^{cg}\cdot T^{wc}_2(T^{wc}_1)^{-1}$$</p>
+<p>因此，问题转换为更为通用的形式：
+$$\Rarr A_iX=XB_i$$</p>
+<p>具体标定做法为，将非对称棋盘格固定于某处拍摄多张图片，记录每个位姿的 $T^{gb}_j$ 以及 $T^{wc}_j$，然后调用<code>cv2.calibrateHandEye</code><a href="https://docs.opencv.org/4.5.5/d9/d0c/group__calib3d.html#gaebfc1c9f7434196a374c382abf43439b" target="_blank" rel="noopener noreffer">🔗</a>。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">rot</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">calibrateHandEye</span><span class="p">(</span><span class="n">pose_list</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">pose_list</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">Hg2c</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">Hg2c</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">cv2</span><span class="o">.</span><span class="n">calibrateHandEye</span><span class="p">(</span><span class="n">R_gripper2base</span><span class="p">,</span> <span class="n">t_gripper2base</span><span class="p">,</span> <span class="n">R_target2cam</span><span class="p">,</span> <span class="n">t_target2cam</span><span class="p">[,</span> <span class="n">R_cam2gripper</span><span class="p">[,</span> <span class="n">t_cam2gripper</span><span class="p">[,</span> <span class="n">method</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="n">R_cam2gripper</span><span class="p">,</span> <span class="n">t_cam2gripper</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div></div><div class="post-footer" id="post-footer">
+</div><p>其中：</p>
+<ul>
+<li><code>R_gripper2base</code>: [in] 机器人末端到基座坐标的齐次变换矩阵（$T^{gb}$）中的旋转部分 <code>[img_num, 3, 3]</code>，可从机器人控制器读取</li>
+<li><code>t_gripper2base</code>: [in] 机器人末端到基座坐标的齐次变换矩阵（$T^{gb}$）中的位移部分 <code>[img_num, 3, 1]</code>，可从机器人控制器读取</li>
+<li><code>R_target2cam</code>: [in] 世界坐标（由棋盘格定义）到相机坐标的齐次变换矩阵（$T^{wc}$）中的旋转部分 <code>[img_num, 3, 3]</code>，由 <code>cv2.calibrateCamera</code> 得到</li>
+<li><code>t_target2cam</code>: [in] 世界坐标（由棋盘格定义）到相机坐标的齐次变换矩阵（$T^{wc}$）中的位移部分 <code>[img_num, 3, 1]</code>，由 <code>cv2.calibrateCamera</code> 得到</li>
+<li><code>R_cam2gripper</code>: [out] 相机坐标到机器人末端坐标的齐次变换矩阵（$T^{cg}$）中的旋转部分 <code>[img_num, 3, 3]</code></li>
+<li><code>t_cam2gripper</code>: [out] 相机坐标到机器人末端坐标的齐次变换矩阵（$T^{cg}$）中的位移部分 <code>[img_num, 3, 1]</code></li>
+<li><code>method</code>: [in] 标定算法</li>
+</ul>
+<p>举个例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">r_c2g</span><span class="p">,</span> <span class="n">t_c2g</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">calibrateHandEye</span><span class="p">(</span><span class="n">g2b</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,:</span><span class="mi">3</span><span class="p">],</span> <span class="n">g2b</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">w2c</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,:</span><span class="mi">3</span><span class="p">],</span> <span class="n">w2c</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="21-相机放置于机器人之外-eye-to-hand">2.1 相机放置于机器人之外 (eye-to-hand)</h2>
+<p>这种情况下待求量为相机到机器人基座（base）的转换矩阵 $T^{cb}$，因为这个量是固定不变的。
+类似 eye-in-hand 问题，需要将棋盘格固定在机器人末端执行器上，也即固定 $T_{wg}$，则有：</p>
+<p>$$ T^{wg} = T^{bg}_j\times T^{cb} \times T^{wc}_j$$
+其中 $T^{bg} = (T^{gb})^{-1}$，可以从机器人控制器读取再求逆。</p>
+<p>同样，任取两张图片 $1, 2$ 可得：</p>
+<p>$$T^{wg} = T^{bg}_1 T^{cb} T^{wc}_1 = T^{bg}_2 T^{cb} T^{wc}_2$$
+$$\Rarr (T^{bg}_2)^{-1} T^{bg}_1 \cdot T^{cb}  = T^{cg}\cdot T^{wc}_2(T^{wc}_1)^{-1}$$</p>
+<p>因此，问题转换为更为通用的形式：
+$$\Rarr A_iX=XB_i$$</p>
+<p>注意到，该问题与 eye-in-hand 问题唯一的区别是 $T^{gb}$ 修改为了 $T^{bg}$。因此实际操作时，只需要将棋盘格固定在机器人末端执行器上，然后将读取的 $T^{gb}$ 先取逆，然后调用 <code>cv2.calibrateHandEye</code> 即可。</p></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 2022-06-27&nbsp;<a class="git-hash" href="https://github.com/dillonzq/LoveIt/commit/e2ec87bb86552a284e62c51a81f3179e649c6a7c" target="_blank" title="commit by liujin(liuyvjin@qq.com) e2ec87bb86552a284e62c51a81f3179e649c6a7c: add handeyecalibration">
-                                    <i class="fas fa-hashtag fa-fw"></i>e2ec87b</a></span>
+                <span>更新于 2022-06-27</span>
             </div>
             <div class="post-info-license"></div>
         </div>
         <div class="post-info-line">
             <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/handeyecalibration/index.md" target="_blank">阅读原始文档</a>
+                            <a class="link-to-markdown" href="/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/index.md" target="_blank">阅读原始文档</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/handeyecalibration/" data-title="相机标定总结" data-hashtags="OpenCV,python"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/handeyecalibration/" data-hashtag="OpenCV"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/handeyecalibration/" data-title="相机标定总结"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/handeyecalibration/" data-title="相机标定总结"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/handeyecalibration/" data-title="相机标定总结"><i class="fab fa-weibo fa-fw"></i></a></span>
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" data-title="相机标定总结" data-hashtags="OpenCV,python"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" data-hashtag="OpenCV"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" data-title="相机标定总结"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" data-title="相机标定总结"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" data-title="相机标定总结"><i class="fab fa-weibo fa-fw"></i></a></span>
             </div>
         </div>
     </div>
@@ -229,7 +271,7 @@ $$T^{wp}_j = T^{cp} T^{wc}_j$$
         </section>
     </div>
 
-    <div class="post-nav"><a href="/realsense%E6%A0%87%E5%AE%9A/" class="prev" rel="prev" title="RealSense 标定"><i class="fas fa-angle-left fa-fw"></i>RealSense 标定</a></div>
+    <div class="post-nav"><a href="/realsense%E6%A0%87%E5%AE%9A/" class="prev" rel="prev" title="RealSense 标定实现"><i class="fas fa-angle-left fa-fw"></i>RealSense 标定实现</a></div>
 </div>
 </article></div>
             </main><footer class="footer">

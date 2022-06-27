@@ -1,4 +1,4 @@
-# RealSense 标定
+# RealSense 标定实现
 
 Python 实现的 RealSense 相机类，以及相机标定类。
 <!--more-->
@@ -96,7 +96,8 @@ if __name__ == "__main__":
             cam.post_process ^= True
             print("Post Process ", "On" if cam.post_process else "OFF")
 ```
-# 标定
+
+# 内外参标定
 ```python
 from camera import Camera
 import numpy as np
@@ -123,7 +124,6 @@ class Calibrater:
         :param get_img: 从相机获取图片的函数
         :param pattern_shape: 标定板角点数, defaults to (8, 6)
         :param pattern_size: 标定板格点尺寸(m), defaults to 0.15
-        :param img_num: 标定内参时需要采集的有效标定板图片数量
         """
         self.get_img = get_img
         # 准备角点真实坐标
@@ -138,7 +138,7 @@ class Calibrater:
         self.criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 0.001)
 
     def calibrate(self, img_num, save=False):
-        """自动采集 self.img_num 张图片, 标定 mtx 和 dist, 并进行重投影评估
+        """交互采集 img_num 张图片, 标定 mtx 和 dist, 并进行重投影评估
         :param img_num: 拍摄图片数量
         :param save: 是否保存内参 mtx 和 dist
         """
@@ -164,12 +164,14 @@ class Calibrater:
         cv2.destroyAllWindows()
         # 标定
         ret, self.mtx, self.dist, rvecs, tvecs = cv2.calibrateCamera(obj_points, img_points, (self.w, self.h), None, None)
-        # 评估标定结果
-        self.eval_reproj_error(img_points, rvecs, tvecs, self.mtx, self.dist)
         print("mtx: \n", self.mtx)  # 内参矩阵
         print("dist: \n", self.dist)  # 畸变矩阵
+        # 评估标定结果
+        self.eval_reproj_error(img_points, rvecs, tvecs, self.mtx, self.dist)
+        # 保存结果
         if save:
             np.savez("intrinsics.npz", mtx=self.mtx, dist=self.dist)
+        return self.mtx, self.dist
 
     def find_corners(self, img, subpix=True):
         """查找图像中的角点, 若找到返回 ret == True
@@ -184,7 +186,7 @@ class Calibrater:
         return ret, corners
 
     def eval_reproj_error(self, img_points, rvecs, tvecs, mtx, dist):
-        """计算重投影误差
+        """计算重投影误差, 评估标定结果
 
         :param img_points: 角点像素坐标 (img_num, n*m, 2)
         :param rvecs: 旋转向量 (img_num, 3)
@@ -235,5 +237,75 @@ if __name__ == '__main__':
             exit()
 
 ```
-<!--more-->
 
+# 手眼标定
+```python
+class HandEyeCalibrater(Calibrater):
+    def __init__(self, get_pose, get_img, pattern_shape, pattern_size):
+        """
+        :param get_pose: 获取机器人末端到基座的转换矩阵的函数
+        :param get_img: 从相机获取图片的函数
+        :param pattern_shape: 标定板角点数, defaults to (8, 6)
+        :param pattern_size: 标定板格点尺寸(m), defaults to 0.15
+        """
+        super().__init__(self, get_img, pattern_shape, pattern_size)
+        self.get_pose = get_pose  # 读取机器人末端坐标到基座坐标的转换
+
+    def calibrate(self, img_num, mode=1, save=False):
+        """交互式采集 img_num 张图片以及相应机器人位姿, 标定 mtx 和 dist, cam2gripper(eye-in-hand) 或者 cam2base(eye-to-hand)
+        :param mode: 1 eye-in-hand, 2 eye-to-hand
+        :param img_num: 拍摄图片数量
+        :param save: 是否保存内参 mtx, dist, cam2robot
+        """
+        self.mode = mode
+        img_points = []  # 像素坐标
+        obj_points = []  # 世界坐标
+        robot_poses = []  # 机器人位姿 gripper2base(eye-in-hand) 或者 base2gripper(eye-to-hand)
+        # 采集棋盘格图片
+        cv2.namedWindow('calibrate', cv2.WINDOW_AUTOSIZE) # 实时显示
+        print("Move robot and press Enter to capture {} images".format(img_num))
+        cnt = 0
+        while cnt < img_num:  # 共需要记录 img_num 组数据
+            img = self.get_img()
+            ret, corners = self.find_corners(img)
+            if ret == True:
+                cv2.drawChessboardCorners(img, (self.pat_w, self.pat_h), corners, ret)  # 绘图
+            cv2.imshow("calibrate", img)
+            c = cv2.waitKey(5)
+
+            if c == 13 and ret == True:  # 按下 enter 捕获当前图像角点
+                img_points.append(corners)
+                obj_points.append(self.obj_p)
+                pose = self.get_pose()  # gripper2base
+                if mode == 2:  # base2gripper(eye-to-hand)
+                    pose = np.linalg.pinv(pose)
+                robot_poses.append(pose)
+                print("Captured {} / {} images".format(cnt := cnt+1, img_num) )
+            elif c == 27 or c == ord('q'):
+                exit()
+        cv2.destroyAllWindows()
+        # 标定
+        ret, self.mtx, self.dist, rvecs, tvecs = cv2.calibrateCamera(obj_points, img_points, (self.w, self.h), None, None)
+        print("mtx: \n", self.mtx)  # 内参矩阵
+        print("dist: \n", self.dist)  # 畸变矩阵
+        # 评估标定结果
+        self.eval_reproj_error(img_points, rvecs, tvecs, self.mtx, self.dist)
+        # 手眼标定
+        robot_poses = np.array(robot_poses)
+        target2cam = np.array(list(map(rtvec2transform, rvecs, tvecs)))
+        rot, trans = cv2.calibrateHandEye(robot_poses[:, :3, :3], robot_poses[:, :3, 3], target2cam[:, :3, :3], target2cam[:, :3, 3])
+        self.cam2robot = np.identity(4)
+        self.cam2robot[:3, :3] = rot
+        self.cam2robot[:3, 3] = trans[:,0]
+        print("cam2robot: \n", self.cam2robot)
+        # 保存结果
+        if save:
+            np.savez("intrinsics.npz", mtx=self.mtx, dist=self.dist, cam2robot=self.cam2robot)
+        return self.mtx, self.dist, self.cam2robot
+```
+
+# Kinect2 相机类
+
+```python
+
+```

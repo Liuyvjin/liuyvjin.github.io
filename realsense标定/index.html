@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>RealSense 标定 - Influx&#39;s Blog</title><meta name="Description" content="关于 LoveIt 主题"><meta property="og:title" content="RealSense 标定" />
+        <title>RealSense 标定实现 - Influx&#39;s Blog</title><meta name="Description" content="关于 LoveIt 主题"><meta property="og:title" content="RealSense 标定实现" />
 <meta property="og:description" content="Python 实现的 RealSense 相机类，以及相机标定类。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://example.com/realsense%E6%A0%87%E5%AE%9A/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
@@ -15,21 +15,21 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://example.com/logo.png"/>
 
-<meta name="twitter:title" content="RealSense 标定"/>
+<meta name="twitter:title" content="RealSense 标定实现"/>
 <meta name="twitter:description" content="Python 实现的 RealSense 相机类，以及相机标定类。"/>
 <meta name="application-name" content="Influx&#39;s Blog">
 <meta name="apple-mobile-web-app-title" content="Influx&#39;s Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/realsense%E6%A0%87%E5%AE%9A/" /><link rel="prev" href="https://example.com/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/" /><link rel="next" href="https://example.com/handeyecalibration/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/realsense%E6%A0%87%E5%AE%9A/" /><link rel="prev" href="https://example.com/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/" /><link rel="next" href="https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "RealSense 标定",
+        "headline": "RealSense 标定实现",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/example.com\/realsense%E6%A0%87%E5%AE%9A\/"
-        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV, python","wordcount":  1293 ,
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV, python","wordcount":  1784 ,
         "url": "https:\/\/example.com\/realsense%E6%A0%87%E5%AE%9A\/","datePublished": "2022-06-26T21:30:57+08:00","dateModified": "2022-06-26T21:30:57+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
@@ -109,10 +109,10 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">目录</h2>
             <div class="toc-content always-active" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">RealSense 标定</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animated flipInX">RealSense 标定实现</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/opencv/"><i class="far fa-folder fa-fw"></i>OpenCV</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-26">2022-06-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1293 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-26">2022-06-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1784 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
                     <span>目录</span>
@@ -305,7 +305,7 @@
 </span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Post Process &#34;</span><span class="p">,</span> <span class="s2">&#34;On&#34;</span> <span class="k">if</span> <span class="n">cam</span><span class="o">.</span><span class="n">post_process</span> <span class="k">else</span> <span class="s2">&#34;OFF&#34;</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="标定">标定</h1>
+</div><h1 id="内外参标定">内外参标定</h1>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">  1
@@ -443,6 +443,7 @@
 </span><span class="lnt">133
 </span><span class="lnt">134
 </span><span class="lnt">135
+</span><span class="lnt">136
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">camera</span> <span class="kn">import</span> <span class="n">Camera</span>
@@ -470,7 +471,6 @@
 </span></span></span><span class="line"><span class="cl"><span class="s2">        :param get_img: 从相机获取图片的函数
 </span></span></span><span class="line"><span class="cl"><span class="s2">        :param pattern_shape: 标定板角点数, defaults to (8, 6)
 </span></span></span><span class="line"><span class="cl"><span class="s2">        :param pattern_size: 标定板格点尺寸(m), defaults to 0.15
-</span></span></span><span class="line"><span class="cl"><span class="s2">        :param img_num: 标定内参时需要采集的有效标定板图片数量
 </span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
 </span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">get_img</span> <span class="o">=</span> <span class="n">get_img</span>
 </span></span><span class="line"><span class="cl">        <span class="c1"># 准备角点真实坐标</span>
@@ -485,7 +485,7 @@
 </span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">criteria</span> <span class="o">=</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">TERM_CRITERIA_EPS</span> <span class="o">+</span> <span class="n">cv2</span><span class="o">.</span><span class="n">TERM_CRITERIA_MAX_ITER</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img_num</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;自动采集 self.img_num 张图片, 标定 mtx 和 dist, 并进行重投影评估
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;交互采集 img_num 张图片, 标定 mtx 和 dist, 并进行重投影评估
 </span></span></span><span class="line"><span class="cl"><span class="s2">        :param img_num: 拍摄图片数量
 </span></span></span><span class="line"><span class="cl"><span class="s2">        :param save: 是否保存内参 mtx 和 dist
 </span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
@@ -511,12 +511,14 @@
 </span></span><span class="line"><span class="cl">        <span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">        <span class="c1"># 标定</span>
 </span></span><span class="line"><span class="cl">        <span class="n">ret</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="n">rvecs</span><span class="p">,</span> <span class="n">tvecs</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">calibrateCamera</span><span class="p">(</span><span class="n">obj_points</span><span class="p">,</span> <span class="n">img_points</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="c1"># 评估标定结果</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">eval_reproj_error</span><span class="p">(</span><span class="n">img_points</span><span class="p">,</span> <span class="n">rvecs</span><span class="p">,</span> <span class="n">tvecs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;mtx: </span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="p">)</span>  <span class="c1"># 内参矩阵</span>
 </span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;dist: </span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span>  <span class="c1"># 畸变矩阵</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 评估标定结果</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">eval_reproj_error</span><span class="p">(</span><span class="n">img_points</span><span class="p">,</span> <span class="n">rvecs</span><span class="p">,</span> <span class="n">tvecs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 保存结果</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="s2">&#34;intrinsics.npz&#34;</span><span class="p">,</span> <span class="n">mtx</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">find_corners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">subpix</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;查找图像中的角点, 若找到返回 ret == True
@@ -531,7 +533,7 @@
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">ret</span><span class="p">,</span> <span class="n">corners</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">eval_reproj_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img_points</span><span class="p">,</span> <span class="n">rvecs</span><span class="p">,</span> <span class="n">tvecs</span><span class="p">,</span> <span class="n">mtx</span><span class="p">,</span> <span class="n">dist</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;计算重投影误差
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;计算重投影误差, 评估标定结果
 </span></span></span><span class="line"><span class="cl"><span class="s2">
 </span></span></span><span class="line"><span class="cl"><span class="s2">        :param img_points: 角点像素坐标 (img_num, n*m, 2)
 </span></span></span><span class="line"><span class="cl"><span class="s2">        :param rvecs: 旋转向量 (img_num, 3)
@@ -582,7 +584,145 @@
 </span></span><span class="line"><span class="cl">            <span class="n">exit</span><span class="p">()</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><!--more--></div><div class="post-footer" id="post-footer">
+</div><h1 id="手眼标定">手眼标定</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">HandEyeCalibrater</span><span class="p">(</span><span class="n">Calibrater</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">get_pose</span><span class="p">,</span> <span class="n">get_img</span><span class="p">,</span> <span class="n">pattern_shape</span><span class="p">,</span> <span class="n">pattern_size</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param get_pose: 获取机器人末端到基座的转换矩阵的函数
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param get_img: 从相机获取图片的函数
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param pattern_shape: 标定板角点数, defaults to (8, 6)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param pattern_size: 标定板格点尺寸(m), defaults to 0.15
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">get_img</span><span class="p">,</span> <span class="n">pattern_shape</span><span class="p">,</span> <span class="n">pattern_size</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">get_pose</span> <span class="o">=</span> <span class="n">get_pose</span>  <span class="c1"># 读取机器人末端坐标到基座坐标的转换</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img_num</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;交互式采集 img_num 张图片以及相应机器人位姿, 标定 mtx 和 dist, cam2gripper(eye-in-hand) 或者 cam2base(eye-to-hand)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param mode: 1 eye-in-hand, 2 eye-to-hand
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param img_num: 拍摄图片数量
+</span></span></span><span class="line"><span class="cl"><span class="s2">        :param save: 是否保存内参 mtx, dist, cam2robot
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+</span></span><span class="line"><span class="cl">        <span class="n">img_points</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># 像素坐标</span>
+</span></span><span class="line"><span class="cl">        <span class="n">obj_points</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># 世界坐标</span>
+</span></span><span class="line"><span class="cl">        <span class="n">robot_poses</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># 机器人位姿 gripper2base(eye-in-hand) 或者 base2gripper(eye-to-hand)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 采集棋盘格图片</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cv2</span><span class="o">.</span><span class="n">namedWindow</span><span class="p">(</span><span class="s1">&#39;calibrate&#39;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">WINDOW_AUTOSIZE</span><span class="p">)</span> <span class="c1"># 实时显示</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Move robot and press Enter to capture </span><span class="si">{}</span><span class="s2"> images&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">img_num</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="n">cnt</span> <span class="o">&lt;</span> <span class="n">img_num</span><span class="p">:</span>  <span class="c1"># 共需要记录 img_num 组数据</span>
+</span></span><span class="line"><span class="cl">            <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_img</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ret</span><span class="p">,</span> <span class="n">corners</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_corners</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">cv2</span><span class="o">.</span><span class="n">drawChessboardCorners</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pat_w</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pat_h</span><span class="p">),</span> <span class="n">corners</span><span class="p">,</span> <span class="n">ret</span><span class="p">)</span>  <span class="c1"># 绘图</span>
+</span></span><span class="line"><span class="cl">            <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&#34;calibrate&#34;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">c</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">13</span> <span class="ow">and</span> <span class="n">ret</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>  <span class="c1"># 按下 enter 捕获当前图像角点</span>
+</span></span><span class="line"><span class="cl">                <span class="n">img_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">corners</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">obj_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj_p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pose</span><span class="p">()</span>  <span class="c1"># gripper2base</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># base2gripper(eye-to-hand)</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">pose</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">pose</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">robot_poses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pose</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Captured </span><span class="si">{}</span><span class="s2"> / </span><span class="si">{}</span><span class="s2"> images&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cnt</span> <span class="o">:=</span> <span class="n">cnt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">img_num</span><span class="p">)</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">27</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="n">exit</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 标定</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ret</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="n">rvecs</span><span class="p">,</span> <span class="n">tvecs</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">calibrateCamera</span><span class="p">(</span><span class="n">obj_points</span><span class="p">,</span> <span class="n">img_points</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;mtx: </span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="p">)</span>  <span class="c1"># 内参矩阵</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;dist: </span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span>  <span class="c1"># 畸变矩阵</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 评估标定结果</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">eval_reproj_error</span><span class="p">(</span><span class="n">img_points</span><span class="p">,</span> <span class="n">rvecs</span><span class="p">,</span> <span class="n">tvecs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 手眼标定</span>
+</span></span><span class="line"><span class="cl">        <span class="n">robot_poses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">robot_poses</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">target2cam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">rtvec2transform</span><span class="p">,</span> <span class="n">rvecs</span><span class="p">,</span> <span class="n">tvecs</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rot</span><span class="p">,</span> <span class="n">trans</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">calibrateHandEye</span><span class="p">(</span><span class="n">robot_poses</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">robot_poses</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">target2cam</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">target2cam</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">cam2robot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">cam2robot</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">rot</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">cam2robot</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">trans</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;cam2robot: </span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam2robot</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 保存结果</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="s2">&#34;intrinsics.npz&#34;</span><span class="p">,</span> <span class="n">mtx</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="n">cam2robot</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cam2robot</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cam2robot</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="kinect2-相机类">Kinect2 相机类</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
@@ -595,7 +735,7 @@
                             <a class="link-to-markdown" href="/realsense%E6%A0%87%E5%AE%9A/index.md" target="_blank">阅读原始文档</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/realsense%E6%A0%87%E5%AE%9A/" data-title="RealSense 标定" data-hashtags="OpenCV,python"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/realsense%E6%A0%87%E5%AE%9A/" data-hashtag="OpenCV"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/realsense%E6%A0%87%E5%AE%9A/" data-title="RealSense 标定"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/realsense%E6%A0%87%E5%AE%9A/" data-title="RealSense 标定"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/realsense%E6%A0%87%E5%AE%9A/" data-title="RealSense 标定"><i class="fab fa-weibo fa-fw"></i></a></span>
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/realsense%E6%A0%87%E5%AE%9A/" data-title="RealSense 标定实现" data-hashtags="OpenCV,python"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/realsense%E6%A0%87%E5%AE%9A/" data-hashtag="OpenCV"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/realsense%E6%A0%87%E5%AE%9A/" data-title="RealSense 标定实现"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/realsense%E6%A0%87%E5%AE%9A/" data-title="RealSense 标定实现"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/realsense%E6%A0%87%E5%AE%9A/" data-title="RealSense 标定实现"><i class="fab fa-weibo fa-fw"></i></a></span>
             </div>
         </div>
     </div>
@@ -608,7 +748,7 @@
     </div>
 
     <div class="post-nav"><a href="/cosine-annealing-lr-%E4%BD%99%E5%BC%A6%E9%80%80%E7%81%AB%E8%B0%83%E6%95%B4%E5%AD%A6%E4%B9%A0%E7%8E%87/" class="prev" rel="prev" title="CosineAnnealingLR-余弦退火调整学习率"><i class="fas fa-angle-left fa-fw"></i>CosineAnnealingLR-余弦退火调整学习率</a>
-            <a href="/handeyecalibration/" class="next" rel="next" title="相机标定总结">相机标定总结<i class="fas fa-angle-right fa-fw"></i></a></div>
+            <a href="/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" class="next" rel="next" title="相机标定总结">相机标定总结<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

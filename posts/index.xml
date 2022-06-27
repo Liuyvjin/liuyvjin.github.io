@@ -6,13 +6,13 @@
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>liuyvjin@qq.com (influx)</managingEditor>
             <webMaster>liuyvjin@qq.com (influx)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 27 Jun 2022 13:27:37 &#43;0800</lastBuildDate><atom:link href="https://example.com/posts/" rel="self" type="application/rss+xml" /><item>
     <title>相机标定总结</title>
-    <link>https://example.com/handeyecalibration/</link>
+    <link>https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/</link>
     <pubDate>Mon, 27 Jun 2022 13:27:37 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://example.com/handeyecalibration/</guid>
-    <description><![CDATA[<p>使用 RealSense 进行手眼标定</p>]]></description>
+    <guid>https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/</guid>
+    <description><![CDATA[<p>相机内外参标定，手眼标定的原理。</p>]]></description>
 </item><item>
-    <title>RealSense 标定</title>
+    <title>RealSense 标定实现</title>
     <link>https://example.com/realsense%E6%A0%87%E5%AE%9A/</link>
     <pubDate>Sun, 26 Jun 2022 21:30:57 &#43;0800</pubDate>
     <author>作者</author>
