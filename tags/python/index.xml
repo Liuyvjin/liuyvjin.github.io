@@ -4,7 +4,14 @@
         <link>https://example.com/tags/python/</link>
         <description>python - 标签 - Influx&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>liuyvjin@qq.com (influx)</managingEditor>
-            <webMaster>liuyvjin@qq.com (influx)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 26 Jun 2022 21:30:57 &#43;0800</lastBuildDate><atom:link href="https://example.com/tags/python/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>liuyvjin@qq.com (influx)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 27 Jun 2022 13:27:37 &#43;0800</lastBuildDate><atom:link href="https://example.com/tags/python/" rel="self" type="application/rss+xml" /><item>
+    <title>相机标定总结</title>
+    <link>https://example.com/handeyecalibration/</link>
+    <pubDate>Mon, 27 Jun 2022 13:27:37 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://example.com/handeyecalibration/</guid>
+    <description><![CDATA[<p>使用 RealSense 进行手眼标定</p>]]></description>
+</item><item>
     <title>RealSense 标定</title>
     <link>https://example.com/realsense%E6%A0%87%E5%AE%9A/</link>
     <pubDate>Sun, 26 Jun 2022 21:30:57 &#43;0800</pubDate>
