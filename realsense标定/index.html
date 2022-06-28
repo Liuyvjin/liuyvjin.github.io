@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/example.com\/realsense%E6%A0%87%E5%AE%9A\/"
-        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV, python","wordcount":  1784 ,
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV, python","wordcount":  1941 ,
         "url": "https:\/\/example.com\/realsense%E6%A0%87%E5%AE%9A\/","datePublished": "2022-06-26T21:30:57+08:00","dateModified": "2022-06-26T21:30:57+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
@@ -111,7 +111,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">RealSense 标定实现</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/opencv/"><i class="far fa-folder fa-fw"></i>OpenCV</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-26">2022-06-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1784 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-26">2022-06-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1941 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -718,9 +718,69 @@
 </div><h1 id="kinect2-相机类">Kinect2 相机类</h1>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code></code></pre></td>
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">cv2</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pykinect2</span> <span class="kn">import</span> <span class="n">PyKinectV2</span><span class="p">,</span> <span class="n">PyKinectRuntime</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pykinect2.PyKinectV2</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">mapper</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># https://github.com/KonstantinosAng/PyKinect2-Mapper-Functions/blob/master/mapper.py</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">KinectCam</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span> <span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">kinect</span> <span class="o">=</span> <span class="n">PyKinectRuntime</span><span class="o">.</span><span class="n">PyKinectRuntime</span><span class="p">(</span><span class="n">PyKinectV2</span><span class="o">.</span><span class="n">FrameSourceTypes_Depth</span> <span class="o">|</span> <span class="n">PyKinectV2</span><span class="o">.</span><span class="n">FrameSourceTypes_Color</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span> <span class="o">=</span> <span class="n">kinect</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">color_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">kinect</span><span class="o">.</span><span class="n">color_frame_desc</span><span class="o">.</span><span class="n">Height</span><span class="p">,</span> <span class="n">kinect</span><span class="o">.</span><span class="n">color_frame_desc</span><span class="o">.</span><span class="n">Width</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">depth_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">kinect</span><span class="o">.</span><span class="n">depth_frame_desc</span><span class="o">.</span><span class="n">Height</span><span class="p">,</span> <span class="n">kinect</span><span class="o">.</span><span class="n">depth_frame_desc</span><span class="o">.</span><span class="n">Width</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;color shape: &#34;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color_shape</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;depth shape: &#34;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth_shape</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">has_new_depth_frame</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">has_new_color_frame</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 获取彩色图</span>
+</span></span><span class="line"><span class="cl">                <span class="n">color_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">get_last_color_frame</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                <span class="n">color_img</span> <span class="o">=</span> <span class="n">color_frame</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">color_shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 获取原始深度图</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># depth_frame = self.camera.get_last_depth_frame()</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># depth_img = depth_frame.reshape(self.depth_shape).astype(np.uint16)</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 获取对齐到彩色图的深度</span>
+</span></span><span class="line"><span class="cl">                <span class="n">depth_img</span> <span class="o">=</span> <span class="n">depth_2_color_space</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="p">,</span> <span class="n">_DepthSpacePoint</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">_depth_frame_data</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_aligned_image</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">depth_colormap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">applyColorMap</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">convertScaleAbs</span><span class="p">(</span><span class="n">depth_img</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.06</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLORMAP_JET</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 获取点云</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pts</span> <span class="o">=</span> <span class="n">color_2_world</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">_depth_frame_data</span><span class="p">,</span> <span class="n">_CameraSpacePoint</span><span class="p">,</span> <span class="n">as_array</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">color_img</span><span class="p">,</span> <span class="n">depth_img</span><span class="p">,</span> <span class="n">depth_colormap</span><span class="p">,</span> <span class="n">pts</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></div><div class="post-footer" id="post-footer">
     <div class="post-info">
