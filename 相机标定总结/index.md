@@ -41,9 +41,9 @@ $$T^{AB}=(\alpha_1^\beta, \alpha_2^\beta, \alpha_3^\beta)$$
 
 **（2）** 如何做 $O_B$ 到 $O_A$ 的线性变换。
 
-$T^{AB}$ 除了可以转换坐标，还可以做线性变换将 $\beta$ 映射为 $\alpha$，线性变换前后，两个坐标系都没有发生变化，点 $P$ 在 $O_B$ 的坐标从 $P_B$ 变为 $P'_B$。则有：
+$T^{AB}$ 除了可以转换坐标，还可以做线性变换将 $\beta$ 映射为 $\alpha$，线性变换前后，两个坐标系都没有发生变化，点 $P$ 在 $O_B$ 的坐标从 $P_B$ 变为 $P_B^{'}$。则有：
 
-$$P_B' = T^{AB}P_B$$
+$$P_B^{'} = T^{AB}P_B$$
 
 {{< /admonition >}}
 
@@ -66,7 +66,11 @@ $$T^{wp}_j = T^{cp} T^{wc}_j$$
 手眼标定要求 $T^{cb}$ 或 $T^{cg}$，也即相机坐标到机器人基座或者末端坐标的转换。其中末端到基座坐标的转换矩阵 $T^{gb}$ 可以从机器人控制器读取到。
 
 ## 2.1 相机固定于机器人末端 (eye-in-hand)
-{{< image src="./eye_in_hand_figure.png" caption="eye-in-hand"  width=60% >}}
+
+<div style="text-align: center">
+<img src="./eye_in_hand_figure.png" width="70%" />
+</div>
+
 坐标变换关系如上图所示，, 图中 `t` 表示 “target”, 与文中 `w` 等价。此时，待求量为相机到机器人末端（gripper）的转换矩阵 $T^{cg}$。固定棋盘格坐标（$O_w$，因此需使用非对称棋盘格）和机器人基座（$O_b$）的位置，则有：
 
 $$ T^{wb} = T^{gb}_j\times T^{cg} \times T^{wc}_j$$

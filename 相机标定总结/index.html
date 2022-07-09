@@ -20,7 +20,7 @@
 <meta name="application-name" content="Influx&#39;s Blog">
 <meta name="apple-mobile-web-app-title" content="Influx&#39;s Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" /><link rel="prev" href="https://example.com/realsense%E6%A0%87%E5%AE%9A/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" /><link rel="prev" href="https://example.com/realsense%E6%A0%87%E5%AE%9A/" /><link rel="next" href="https://example.com/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/example.com\/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93\/"
-        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV, python","wordcount":  1980 ,
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "OpenCV, python","wordcount":  1982 ,
         "url": "https:\/\/example.com\/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93\/","datePublished": "2022-06-27T13:27:37+08:00","dateModified": "2022-06-27T13:27:37+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": {
@@ -111,7 +111,7 @@
             <div class="toc-content always-active" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">相机标定总结</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/opencv/"><i class="far fa-folder fa-fw"></i>OpenCV</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-27">2022-06-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1980 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-27">2022-06-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1982 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -172,8 +172,8 @@ $$T^{AB}=(\alpha_1^\beta, \alpha_2^\beta, \alpha_3^\beta)$$</p>
 <p>在矩阵理论中，$T^{AB}$ 通常称为：$\beta$ 到 $\alpha$ 的过渡矩阵 $\alpha = \beta T^{AB}$。
 若有线性变换 $\sigma$ 将 $\beta$ 基映射为 $\alpha$ 基，则 $\sigma$ 在 $\beta$ 基的矩阵为 $T^{AB}$。</p>
 <p><strong>（2）</strong> 如何做 $O_B$ 到 $O_A$ 的线性变换。</p>
-<p>$T^{AB}$ 除了可以转换坐标，还可以做线性变换将 $\beta$ 映射为 $\alpha$，线性变换前后，两个坐标系都没有发生变化，点 $P$ 在 $O_B$ 的坐标从 $P_B$ 变为 $P&rsquo;_B$。则有：</p>
-<p>$$P_B&rsquo; = T^{AB}P_B$$</p>
+<p>$T^{AB}$ 除了可以转换坐标，还可以做线性变换将 $\beta$ 映射为 $\alpha$，线性变换前后，两个坐标系都没有发生变化，点 $P$ 在 $O_B$ 的坐标从 $P_B$ 变为 $P_B^{&rsquo;}$。则有：</p>
+<p>$$P_B^{&rsquo;} = T^{AB}P_B$$</p>
 </div>
         </div>
     </div>
@@ -191,17 +191,10 @@ $$T^{wp}_j = T^{cp} T^{wc}_j$$
 <h1 id="2-手眼标定">2. 手眼标定</h1>
 <p>手眼标定要求 $T^{cb}$ 或 $T^{cg}$，也即相机坐标到机器人基座或者末端坐标的转换。其中末端到基座坐标的转换矩阵 $T^{gb}$ 可以从机器人控制器读取到。</p>
 <h2 id="21-相机固定于机器人末端-eye-in-hand">2.1 相机固定于机器人末端 (eye-in-hand)</h2>
-<p><figure><a class="lightgallery" href="./eye_in_hand_figure.png" title="./eye_in_hand_figure.png" data-thumbnail="./eye_in_hand_figure.png" data-sub-html="<h2>eye-in-hand</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="./eye_in_hand_figure.png"
-            data-srcset="./eye_in_hand_figure.png, ./eye_in_hand_figure.png 1.5x, ./eye_in_hand_figure.png 2x"
-            data-sizes="auto"
-            alt="./eye_in_hand_figure.png" width="60%" />
-    </a><figcaption class="image-caption">eye-in-hand</figcaption>
-    </figure>
-坐标变换关系如上图所示，, 图中 <code>t</code> 表示 “target”, 与文中 <code>w</code> 等价。此时，待求量为相机到机器人末端（gripper）的转换矩阵 $T^{cg}$。固定棋盘格坐标（$O_w$，因此需使用非对称棋盘格）和机器人基座（$O_b$）的位置，则有：</p>
+<div style="text-align: center">
+<img src="./eye_in_hand_figure.png" width="70%" />
+</div>
+<p>坐标变换关系如上图所示，, 图中 <code>t</code> 表示 “target”, 与文中 <code>w</code> 等价。此时，待求量为相机到机器人末端（gripper）的转换矩阵 $T^{cg}$。固定棋盘格坐标（$O_w$，因此需使用非对称棋盘格）和机器人基座（$O_b$）的位置，则有：</p>
 <p>$$ T^{wb} = T^{gb}_j\times T^{cg} \times T^{wc}_j$$</p>
 <p>任取两张图片 $1, 2$ 可得：</p>
 <p>$$T^{wb} = T^{gb}_1 T^{cg} T^{wc}_1 = T^{gb}_2 T^{cg} T^{wc}_2$$
@@ -271,7 +264,8 @@ $$\Rarr A_iX=XB_i$$</p>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/realsense%E6%A0%87%E5%AE%9A/" class="prev" rel="prev" title="RealSense 标定实现"><i class="fas fa-angle-left fa-fw"></i>RealSense 标定实现</a></div>
+    <div class="post-nav"><a href="/realsense%E6%A0%87%E5%AE%9A/" class="prev" rel="prev" title="RealSense 标定实现"><i class="fas fa-angle-left fa-fw"></i>RealSense 标定实现</a>
+            <a href="/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F/" class="next" rel="next" title="由概率密度函数生成随机变量">由概率密度函数生成随机变量<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>由概率密度函数生成随机变量 - Influx&#39;s Blog</title><meta name="Description" content="由概率密度函数生成随机变量的两种方法"><meta property="og:title" content="由概率密度函数生成随机变量" />
+<meta property="og:description" content="由概率密度函数生成随机变量的两种方法" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-09T15:26:57+08:00" />
+<meta property="article:modified_time" content="2022-07-09T15:26:57+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/logo.png"/>
+
+<meta name="twitter:title" content="由概率密度函数生成随机变量"/>
+<meta name="twitter:description" content="由概率密度函数生成随机变量的两种方法"/>
+<meta name="application-name" content="Influx&#39;s Blog">
+<meta name="apple-mobile-web-app-title" content="Influx&#39;s Blog"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F/" /><link rel="prev" href="https://example.com/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "由概率密度函数生成随机变量",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F\/"
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "leetcode, 数学, 统计","wordcount":  1131 ,
+        "url": "https:\/\/example.com\/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F\/","datePublished": "2022-07-09T15:26:57+08:00","dateModified": "2022-07-09T15:26:57+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "xxxx","logo": {
+                    "@type": "ImageObject",
+                    "url": "https:\/\/example.com\/images\/avatar.png",
+                    "width":  512 ,
+                    "height":  512 
+                }},"author": {
+                "@type": "Person",
+                "name": "Influx"
+            },"description": "由概率密度函数生成随机变量的两种方法"
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Influx&#39;s Blog"><span class="header-title-pre"><i class='fas fa-paw fa-fw'></i></span>Influx&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/liuyvjin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">由概率密度函数生成随机变量</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/liuyvjin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Influx</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%95%B0%E5%AD%A6/"><i class="far fa-folder fa-fw"></i>数学</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-07-09">2022-07-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1131 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#21-舍选抽样法">2.1 舍选抽样法</a></li>
+    <li><a href="#22-反变换法">2.2 反变换法</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="1-问题引入">1. 问题引入</h1>
+<p>在编程时，标准库往往只会提供生成均匀分布随机变量的函数，但实际问题中，经常会遇到非均匀分布的随机变量。</p>
+<p>例如下述问题：
+<div class="details admonition question open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>478. 在圆内随机生成点<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>给定圆的半径和圆心的位置，实现函数 <code>randPoint</code>，在圆中产生均匀随机点。
+实现 <code>Solution</code> 类：</p>
+<ul>
+<li><code>Solution(double radius, double x_center, double y_center)</code> 用圆的半径 <code>radius</code> 和圆心的位置 <code>(x_center, y_center)</code> 初始化对象。</li>
+<li><code>randPoint()</code> 返回圆内的一个随机点。圆周上的一点被认为在圆内。答案作为数组返回 <code>[x, y]</code> 。</li>
+</ul>
+<p>来源：<a href="https://leetcode.cn/problems/generate-random-point-in-a-circle" target="_blank" rel="noopener noreffer">力扣（LeetCode）</a></p>
+</div>
+        </div>
+    </div></p>
+<p>对于本题，容易想到极坐标，随机产生半径 $R$ 和角度 $\theta$ 。其中随机变量 $\theta$ 是符合均匀分布的，直接可以用连续均匀分布类 <code>uniform_real_distribution</code> 生成。</p>
+<p>但随机变量 $R$ 不符合均匀分布，直观来看，在圆的面积中，同一半径的点出现在一个圆周上，因此半径 $x$ 出现的概率应该是周长除以面积。据此可写出<strong>概率密度函数</strong> $f(x)$ 如下，其中 $r$ 为最大半径：</p>
+<p>$$f(x) = \frac{2\pi x }{ \pi r^2} = \frac{2x }{ r^2}$$</p>
+<p>顺便计算一下<strong>概率分布函数</strong> $F(x)$，后面推导要用:</p>
+<p>$$F(x)=\int_{0}^{x}f(\xi)d\xi = \frac{ x^2 }{ r^2} $$</p>
+<p>因此本题考察的问题实质是：<strong>如何用标准库提供的均匀分布，生成符合概率分布函数 $\bold{F(x)}$ 或概率密度函数 $f(x)$ 的随机分布。</strong></p>
+<h1 id="2-随机变量的生成方法">2. 随机变量的生成方法</h1>
+<p>简单介绍两种通用方法：</p>
+<h2 id="21-舍选抽样法">2.1 舍选抽样法</h2>
+<div style="text-align: center">
+<img src="https://pic.leetcode-cn.com/1654366052-ueMIcC-image.png" width="70%" />
+</div>
+<p>也就是说，我们可以按照均匀分布产生一个 $x_0\in [0,\ r]$，接着再按均匀分布产生一个 $y\in [0,\ f_{max}(x)]$，根据 $y$ 和概率密度函数 $f(x_0)$ 的关系来决定是否保留本次产生的 $x_0$，即：</p>
+<ul>
+<li>若 $y \leq f(x_0)$，保留 $x_0$</li>
+<li>若 $y &gt; f(x_0)$，舍去 $x_0$</li>
+</ul>
+<p>因为 $y$ 是均匀分布，因此 $x_0$ 能被保留的概率恰好是 $f(x_0)$，即这样产生的随机变量符合概率密度函数 $f(x)$ 。参考代码见最后。</p>
+<h2 id="22-反变换法">2.2 反变换法</h2>
+<p>若已知随机变量的概率分布函数 $F(x)$，$y$ 是 $[0,1]$ 区间的均匀分布随机数， 则具有概率分布函数 $F(x)$ 的随机数可以用下式得到：</p>
+<p>$$x=F^{-1}(y)$$</p>
+<p>简单来说，要得到随机分布可以按照以下步骤：</p>
+<ul>
+<li>(1) 求出概率分布函数 $F(x)$</li>
+<li>(2) 求概率分布函数的反函数 $F^{-1}(x)$</li>
+<li>(3) 把 $[0,1]$ 区间内均匀分布的随机数代入 $x = F^{-1}(y)$</li>
+</ul>
+<p><strong>证明：</strong>
+根据定义：
+$$P(\ y\leq F(x_0)\ ) = F(x_0) = P(\ x\leq x_0\ )$$
+因为 $F(x_0)$ 是单调递增的函数，因此其反函数也单调递增。所以 $y\leq F(x_0)$ 两边同时施加反函数，大小关系不变：
+$$P(\ F^{-1}(y) \leq x_0\ ) = P(\ y\leq F(x_0)\ ) = P(\ x\leq x_0\ )$$
+比较左右两式有：
+$$F^{-1}(y) = x$$</p>
+<p><strong>本题的应用：</strong>
+根据上述方法，本题的概率分布函数为：
+$$F(x)= \frac{ x^2 }{ r^2} $$</p>
+<p>其反函数为：
+$$F^{-1}(y)= \sqrt{ y\times r^2} = r\sqrt{y}$$</p>
+<h1 id="3-参考代码">3. 参考代码</h1>
+<p><strong>反变换法</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="n">x_c</span><span class="p">,</span> <span class="n">y_c</span><span class="p">,</span> <span class="n">radius2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="n">_2pi</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">acos</span><span class="p">(</span><span class="mf">0.0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">default_random_engine</span> <span class="n">generator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uniform_real_distribution</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">distribution</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Solution</span><span class="p">(</span><span class="kt">double</span> <span class="n">radius</span><span class="p">,</span> <span class="kt">double</span> <span class="n">x_center</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y_center</span><span class="p">)</span><span class="o">:</span><span class="n">y_c</span><span class="p">(</span><span class="n">y_center</span><span class="p">),</span> <span class="n">x_c</span><span class="p">(</span><span class="n">x_center</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">radius2</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">radius</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">distribution</span> <span class="o">=</span> <span class="n">uniform_real_distribution</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span> <span class="c1">// 均匀分布
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">randPoint</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">distribution</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span> <span class="o">*</span> <span class="n">_2pi</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span> <span class="n">r</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">distribution</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">{</span><span class="n">x_c</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span><span class="p">,</span> <span class="n">y_c</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>舍选抽样法</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="n">x_c</span><span class="p">,</span> <span class="n">y_c</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">radius2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="n">_2pi</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">acos</span><span class="p">(</span><span class="mf">0.0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uniform_real_distribution</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">dist</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">default_random_engine</span> <span class="n">generator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Solution</span><span class="p">(</span><span class="kt">double</span> <span class="n">radius</span><span class="p">,</span> <span class="kt">double</span> <span class="n">x_center</span><span class="p">,</span> <span class="kt">double</span> <span class="n">y_center</span><span class="p">)</span><span class="o">:</span><span class="n">y_c</span><span class="p">(</span><span class="n">y_center</span><span class="p">),</span> <span class="n">x_c</span><span class="p">(</span><span class="n">x_center</span><span class="p">),</span> <span class="n">r</span><span class="p">(</span><span class="n">radius</span><span class="p">),</span> <span class="n">radius2</span><span class="p">(</span><span class="n">radius</span> <span class="o">*</span> <span class="n">radius</span><span class="p">),</span> <span class="n">dist</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">randPoint</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span> <span class="o">*</span> <span class="n">_2pi</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span> <span class="n">r</span> <span class="o">=</span> <span class="n">randomR</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">{</span><span class="n">x_c</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span><span class="p">,</span> <span class="n">y_c</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 随机产生 R
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">double</span> <span class="nf">randomR</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span><span class="p">;</span>     <span class="c1">// x 的取值范围 [0, r]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kt">double</span> <span class="n">y</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">r</span><span class="p">;</span> <span class="c1">// f(x) 的取值范围 [0, 2/r]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span><span class="p">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">radius2</span><span class="p">)</span> <span class="k">return</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// y &lt;= f(x) 选，否则舍
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-07-09</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://example.com/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F/" data-title="由概率密度函数生成随机变量" data-hashtags="leetcode,数学,统计"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://example.com/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F/" data-hashtag="leetcode"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://example.com/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F/" data-title="由概率密度函数生成随机变量"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://example.com/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F/" data-title="由概率密度函数生成随机变量"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://example.com/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F/" data-title="由概率密度函数生成随机变量"><i class="fab fa-weibo fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/leetcode/">leetcode</a>,&nbsp;<a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>,&nbsp;<a href="/tags/%E7%BB%9F%E8%AE%A1/">统计</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A%E6%80%BB%E7%BB%93/" class="prev" rel="prev" title="相机标定总结"><i class="fas fa-angle-left fa-fw"></i>相机标定总结</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/liuyvjin" target="_blank">influx</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lunr@2.3.8/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.4.0/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
