@@ -35,7 +35,7 @@ $$F(x)=\int_{0}^{x}f(\xi)d\xi = \frac{ x^2 }{ r^2} $$
 
 ## 2.1 舍选抽样法
 <div style="text-align: center">
-<img src="https://pic.leetcode-cn.com/1654366052-ueMIcC-image.png" width="70%" />
+<img src="./rejection_method.png" width="70%" />
 </div>
 
 也就是说，我们可以按照均匀分布产生一个 $x_0\in [0,\ r]$，接着再按均匀分布产生一个 $y\in [0,\ f_{max}(x)]$，根据 $y$ 和概率密度函数 $f(x_0)$ 的关系来决定是否保留本次产生的 $x_0$，即：
