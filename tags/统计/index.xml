@@ -1,10 +1,10 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>统计 - 标签 - Influx&#39;s Blog</title>
+        <title>统计 - 标签 - Jin&#39;s Blog</title>
         <link>https://example.com/tags/%E7%BB%9F%E8%AE%A1/</link>
-        <description>统计 - 标签 - Influx&#39;s Blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>liuyvjin@qq.com (influx)</managingEditor>
-            <webMaster>liuyvjin@qq.com (influx)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 09 Jul 2022 15:26:57 &#43;0800</lastBuildDate><atom:link href="https://example.com/tags/%E7%BB%9F%E8%AE%A1/" rel="self" type="application/rss+xml" /><item>
+        <description>统计 - 标签 - Jin&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>liuyvjin@qq.com (Jin)</managingEditor>
+            <webMaster>liuyvjin@qq.com (Jin)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 09 Jul 2022 15:26:57 &#43;0800</lastBuildDate><atom:link href="https://example.com/tags/%E7%BB%9F%E8%AE%A1/" rel="self" type="application/rss+xml" /><item>
     <title>由概率密度函数生成随机变量</title>
     <link>https://example.com/%E7%94%B1%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F/</link>
     <pubDate>Sat, 09 Jul 2022 15:26:57 &#43;0800</pubDate>
